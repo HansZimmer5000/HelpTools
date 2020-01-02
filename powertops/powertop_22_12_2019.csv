@@ -1,0 +1,540 @@
+____________________________________________________________________
+			P o w e r T O P
+
+____________________________________________________________________
+ *  *  *   System Information   *  *  *
+
+PowerTOP Version;v2.11 ran at Sun Dec 22 10:46:53 2019
+
+Kernel Version;Linux version 4.19.88-1-MANJARO
+System Name;LENOVO20CLS2LK00ThinkPad X250
+CPU Information;4 Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz
+OS Information;Manjaro Linux
+
+Target: 1 units/s;System:  431.8 wakeup/s;CPU:  8.1% usage;GPU: 0 ops/s;GFX: 22.2 wakeups/s;VFS: 0 ops/s;
+
+____________________________________________________________________
+ *  *  *   Top 10 Power Consumers   *  *  *
+
+Usage;Events/s;Category;Description;PW Estimate
+  0,1%; 89,1;Timer;tick_sched_timer;  349 mW  
+  1,1%; 57,5;Process;[PID 7297] /usr/lib/firefox/firefox ;  236 mW  
+  0,1%; 20,7;Process;[PID 15109] /usr/lib/firefox/firefox -contentproc -childID 18 -isForBrowser -prefsLen 9609 -prefMapSize 208835 -parentBuildID 2; 81.7 mW  
+  0,1%; 20,0;Process;[PID 13934] /usr/lib/firefox/firefox -contentproc -childID 11 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 79.0 mW  
+  3,3%; 11,5;Process;[PID 10514] xfce4-taskmanager ; 77.8 mW  
+  0,3%; 15,7;Process;[PID 665] xfwm4 ; 63.8 mW  
+  0,3%; 14,6;Process;[PID 710] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libcpufreq.so 14 12582928 cpufreq CPU-Frequenzüberwach; 59.9 mW  
+  0,0%; 13,8;Process;[PID 10] [rcu_preempt]; 54.0 mW  
+  0,2%; 11,2;Process;[PID 15096] /usr/lib/firefox/firefox -contentproc -childID 18 -isForBrowser -prefsLen 9609 -prefMapSize 208835 -parentBuildID 2; 45.4 mW  
+  0,2%; 10,9;Process;[PID 13912] /usr/lib/firefox/firefox -contentproc -childID 11 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 44.2 mW  
+
+____________________________________________________________________
+ *  *  *   Processor Idle State Report   *  *  *
+
+Package;0
+C2 (pc2);  0,0%
+C3 (pc3);  0,0%
+C6 (pc6);  0,0%
+C7 (pc7);  0,0%
+C8 (pc8);  0,0%
+C9 (pc9);  0,0%
+C10 (pc10);  0,0%
+;
+;
+;
+
+;Core 0
+C3 (cc3);  0,1%
+C6 (cc6);  0,1%
+C7 (cc7); 92,2%
+;Core 1
+C3 (cc3);  0,2%
+C6 (cc6);  0,1%
+C7 (cc7); 93,0%
+;GPU 1868787570
+Powered On;100,0%
+RC6;  0,0%
+RC6p;  0,0%
+RC6pp;  0,0%
+
+CPU;0;CPU;1
+C0 aktiv;  2,0%;  1,1%;
+POLL;  0,0%;   0,0 ms;  0,0%;   0,0 ms
+C1;  1,1%;   0,8 ms;  1,0%;   0,8 ms
+;
+C3;  0,1%;   0,3 ms;  0,0%;   0,3 ms
+C6;  0,1%;   0,4 ms;  0,0%;   0,1 ms
+C7s;  0,3%;   0,6 ms;  0,1%;   0,5 ms
+C8;  1,0%;   1,0 ms;  0,5%;   1,0 ms
+C9;  5,1%;   2,0 ms;  2,0%;   2,4 ms
+;
+C10; 88,5%;  18,4 ms; 93,5%;  21,1 ms
+C1E;  0,4%;   0,3 ms;  0,8%;   0,8 ms
+CPU;2;CPU;3
+C0 aktiv;  1,5%;  0,8%;
+POLL;  0,0%;   0,0 ms;  0,0%;   0,0 ms
+C1;  1,1%;   1,0 ms;  0,6%;   0,3 ms
+;
+C3;  0,1%;   0,3 ms;  0,2%;   0,2 ms
+C6;  0,0%;   0,4 ms;  0,1%;   0,5 ms
+C7s;  0,1%;   0,6 ms;  0,4%;   0,6 ms
+C8;  0,5%;   0,9 ms;  1,4%;   1,2 ms
+C9;  2,9%;   2,0 ms;  9,6%;   2,5 ms
+;
+C10; 91,5%;  22,5 ms; 85,5%;  22,3 ms
+C1E;  1,1%;   0,7 ms;  0,7%;   0,4 ms
+;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+
+____________________________________________________________________
+ *  *  *   Processor Frequency Report   *  *  *
+
+Package;0
+Idle;
+1400 MHz;
+2,10 GHz;
+1300 MHz;
+1200 MHz;
+1100 MHz;
+ 900 MHz;
+1000 MHz;
+ 800 MHz;
+2,00 GHz;
+1,80 GHz;
+ 700 MHz;
+ 600 MHz;
+1,71 GHz;
+1500 MHz;
+1,60 GHz;
+;
+;
+;
+
+;Core 0
+Idle;
+1400 MHz;
+2,10 GHz;
+1300 MHz;
+1200 MHz;
+ 900 MHz;
+1100 MHz;
+1000 MHz;
+ 800 MHz;
+2,00 GHz;
+ 700 MHz;
+ 600 MHz;
+1,71 GHz;
+1500 MHz;
+1,60 GHz;
+;Core 1
+Idle;
+1400 MHz;
+2,10 GHz;
+1300 MHz;
+1200 MHz;
+1100 MHz;
+ 900 MHz;
+1000 MHz;
+ 800 MHz;
+2,00 GHz;
+1,80 GHz;
+ 700 MHz;
+ 600 MHz;
+1,71 GHz;
+1500 MHz;
+1,60 GHz;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+
+CPU 0;CPU 1
+Average;  1255 MHz;  1275 MHz
+Idle;
+2,10 GHz;
+1200 MHz;
+1300 MHz;
+ 900 MHz;
+1100 MHz;
+1000 MHz;
+ 800 MHz;
+2,00 GHz;
+ 700 MHz;
+ 600 MHz;
+1,71 GHz;
+1500 MHz;
+1400 MHz;
+1,60 GHz;
+CPU 2;CPU 3
+Average;  1288 MHz;  1106 MHz
+Idle;
+2,10 GHz;
+1300 MHz;
+1400 MHz;
+1200 MHz;
+1100 MHz;
+ 900 MHz;
+1000 MHz;
+ 800 MHz;
+2,00 GHz;
+1,80 GHz;
+ 600 MHz;
+ 700 MHz;
+1,71 GHz;
+1500 MHz;
+1,60 GHz;
+;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+
+____________________________________________________________________
+ *  *  *   Overview of Software Power Consumers   *  *  *
+
+Usage;Wakeups/s;GPU ops/s;Disk IO/s;GFX Wakeups/s;Category;Description;PW Estimate
+  1,1 ms/s; 89,1;;;;Timer;tick_sched_timer;  349 mW  
+ 11,1 ms/s; 57,5;;;;Process;[PID 7297] /usr/lib/firefox/firefox ;  236 mW  
+  1,0 ms/s; 20,7;;;;Process;[PID 15109] /usr/lib/firefox/firefox -contentproc -childID 18 -isForBrowser -prefsLen 9609 -prefMapSize 208835 -parentBuildID 2; 81.7 mW  
+  1,1 ms/s; 20,0;;;;Process;[PID 13934] /usr/lib/firefox/firefox -contentproc -childID 11 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 79.0 mW  
+ 32,8 ms/s; 11,5;;;  5,4;Process;[PID 10514] xfce4-taskmanager ; 77.8 mW  
+  2,6 ms/s; 15,7;;;  7,3;Process;[PID 665] xfwm4 ; 63.8 mW  
+  3,1 ms/s; 14,6;;;  6,9;Process;[PID 710] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libcpufreq.so 14 12582928 cpufreq CPU-Frequenzüberwach; 59.9 mW  
+193,6 us/s; 13,8;;;;Process;[PID 10] [rcu_preempt]; 54.0 mW  
+  1,8 ms/s; 11,2;;;;Process;[PID 15096] /usr/lib/firefox/firefox -contentproc -childID 18 -isForBrowser -prefsLen 9609 -prefMapSize 208835 -parentBuildID 2; 45.4 mW  
+  1,7 ms/s; 10,9;;;;Process;[PID 13912] /usr/lib/firefox/firefox -contentproc -childID 11 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 44.2 mW  
+425,5 us/s; 10,2;;;;Process;[PID 798] /usr/bin/dockerd -H fd:// ; 40.2 mW  
+300,3 us/s;  8,1;;;;Process;[PID 841] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 32.1 mW  
+328,7 us/s;  5,0;;;;Process;[PID 879] /usr/bin/dockerd -H fd:// ; 20.0 mW  
+133,9 us/s;  5,1;;;;Process;[PID 799] /usr/bin/dockerd -H fd:// ; 20.0 mW  
+  1,3 ms/s;  4,7;;;;Process;[PID 703] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libpulseaudio-plugin.so 1 12582925 pulseaudio PulseAudi; 19.8 mW  
+  1,8 ms/s;  4,4;;;;Interrupt;[7] sched(softirq); 19.0 mW  
+ 66,6 us/s;  4,7;;;;kWork;gc_worker; 18.6 mW  
+449,0 us/s;  4,5;;;;Process;[PID 882] /usr/bin/dockerd -H fd:// ; 18.2 mW  
+683,7 us/s;  4,4;;;;Process;[PID 7351] /usr/lib/firefox/firefox -contentproc -childID 1 -isForBrowser -prefsLen 1 -prefMapSize 208835 -parentBuildID 201912; 18.0 mW  
+247,2 us/s;  4,4;;;;Process;[PID 437] [irq/49-iwlwifi]; 17.6 mW  
+415,1 us/s;  4,4;;;;Process;[PID 801] /usr/bin/dockerd -H fd:// ; 17.6 mW  
+441,6 us/s;  4,2;;;;Process;[PID 864] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 17.0 mW  
+311,7 us/s;  4,2;;;;Process;[PID 876] /usr/bin/dockerd -H fd:// ; 16.9 mW  
+374,6 us/s;  3,9;;;;Process;[PID 1851] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 15.8 mW  
+ 44,6 us/s;  3,7;;;;Interrupt;[0] HI_SOFTIRQ; 14.7 mW  
+255,9 us/s;  3,6;;;;Process;[PID 885] /usr/bin/dockerd -H fd:// ; 14.5 mW  
+572,6 us/s;  3,4;;;;Process;[PID 7459] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 208835 -parentBuildID 201; 14.0 mW  
+  4,0 ms/s;  2,4;;;;Process;[PID 449] /usr/lib/Xorg :0 -seat seat0 -auth /run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch ; 13.4 mW  
+505,9 us/s;  3,1;;;;Process;[PID 9990] /usr/lib/firefox/firefox -contentproc -childID 7 -isForBrowser -prefsLen 7652 -prefMapSize 208835 -parentBuildID 201; 12.6 mW  
+ 80,6 us/s;  3,1;;;;Process;[PID 5208] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 12.2 mW  
+307,0 us/s;  2,8;;;;Process;[PID 842] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 11.4 mW  
+265,7 us/s;  2,8;;;;Process;[PID 863] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 11.4 mW  
+  1,6 ms/s;  2,4;;;;Process;[PID 13727] /usr/lib/firefox/firefox -contentproc -childID 8 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 20; 11.1 mW  
+126,6 us/s;  2,7;;;;Process;[PID 10014] /usr/lib/firefox/firefox -contentproc -childID 7 -isForBrowser -prefsLen 7652 -prefMapSize 208835 -parentBuildID 20; 10.8 mW  
+156,1 us/s;  2,7;;;;Interrupt;[48] i915; 10.7 mW  
+219,2 us/s;  2,4;;;  1,2;Process;[PID 744] nm-applet ; 9.77 mW  
+ 65,4 us/s;  2,0;;;;Process;[PID 407] [i915/signal:0]; 8.05 mW  
+ 56,2 us/s;  2,0;;;;Process;[PID 874] /usr/bin/dockerd -H fd:// ; 8.04 mW  
+281,1 us/s;  1,9;;;;Process;[PID 13834] /usr/lib/firefox/firefox -contentproc -childID 9 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 20; 7.88 mW  
+257,1 us/s;  1,9;;;;Process;[PID 15268] powertop --csv=powertop_22_12_2019.csv ; 7.86 mW  
+245,1 us/s;  1,9;;;;Process;[PID 7404] /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 6443 -prefMapSize 208835 -parentBuildID 201; 7.84 mW  
+353,8 us/s;  1,8;;;;Process;[PID 13969] /usr/lib/firefox/firefox -contentproc -childID 12 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 7.56 mW  
+530,4 us/s;  1,7;;;  0,2;Process;[PID 14731] /usr/lib/thunderbird/thunderbird ; 7.35 mW  
+186,8 us/s;  1,6;;;;Process;[PID 873] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 6.42 mW  
+ 41,1 us/s;  1,6;;;;Process;[PID 880] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 6.28 mW  
+117,8 us/s;  1,5;;;  0,7;Process;[PID 693] /usr/bin/redshift -v ; 6.16 mW  
+136,6 us/s;  1,4;;;;Process;[PID 7356] /usr/lib/firefox/firefox -contentproc -childID 1 -isForBrowser -prefsLen 1 -prefMapSize 208835 -parentBuildID 201912; 5.79 mW  
+ 31,4 us/s;  1,4;;;;Process;[PID 875] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 5.68 mW  
+ 92,3 us/s;  1,4;;;;Process;[PID 7472] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 208835 -parentBuildID 201; 5.55 mW  
+ 82,3 us/s;  1,4;;;;Interrupt;[44] ahci[0000:00:1f.2]; 5.54 mW  
+ 69,8 us/s;  1,4;;;;Process;[PID 7310] /usr/lib/firefox/firefox ; 5.52 mW  
+ 30,7 us/s;  1,4;;;;Process;[PID 878] /usr/bin/dockerd -H fd:// ; 5.49 mW  
+ 15,7 us/s;  1,4;;;;kWork;intel_atomic_cleanup_work; 5.47 mW  
+  4,1 us/s;  1,4;;;;kWork;intel_atomic_helper_free_state_; 5.46 mW  
+179,3 us/s;  1,3;;;;Process;[PID 746] msm_notifier ; 5.44 mW  
+210,2 us/s;  1,3;;;;Process;[PID 13] [rcuc/0]; 5.28 mW  
+ 61,0 us/s;  1,3;;;;Process;[PID 14759] /usr/lib/thunderbird/thunderbird ; 5.13 mW  
+  0,0 us/s;  1,2;;;;kWork;intel_atomic_commit_work; 4.68 mW  
+ 50,2 us/s;  1,1;;;;Process;[PID 13991] /usr/lib/firefox/firefox -contentproc -childID 12 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 2; 4.53 mW  
+313,0 us/s;  1,0;;;;kWork;iwl_fw_timestamp_marker_wk; 4.21 mW  
+ 62,9 us/s;  1,0;;;;Process;[PID 1059] php -S [::]:8080 -t /var/www/html ; 3.96 mW  
+ 40,4 us/s;  1,0;;;;Process;[PID 833] /usr/lib/gvfs-afc-volume-monitor ; 3.94 mW  
+  7,6 us/s;  1,0;;;;kWork;pci_pme_list_scan; 3.90 mW  
+  6,8 us/s;  1,0;;;;Timer;watchdog_timer_fn; 3.90 mW  
+310,3 us/s;  0,9;;;;Process;[PID 330] /usr/bin/NetworkManager --no-daemon ; 3.82 mW  
+  4,2 us/s;  0,9;;;;Timer;sched_rt_period_timer; 3.51 mW  
+244,9 us/s;  0,7;;;;Process;[PID 1438] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 3.17 mW  
+111,4 us/s;  0,7;;;;Process;[PID 29] [rcuc/2]; 2.84 mW  
+ 36,2 us/s;  0,7;;;;Process;[PID 13857] /usr/lib/firefox/firefox -contentproc -childID 9 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 20; 2.76 mW  
+ 32,6 us/s;  0,7;;;;Process;[PID 36] [rcuc/3]; 2.76 mW  
+  9,0 us/s;  0,7;;;;kWork;vmstat_shepherd; 2.74 mW  
+ 68,1 us/s;  0,6;;;;Process;[PID 13737] /usr/lib/firefox/firefox -contentproc -childID 8 -isForBrowser -prefsLen 9291 -prefMapSize 208835 -parentBuildID 20; 2.41 mW  
+372,8 us/s;  0,5;;;;Process;[PID 1502] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 2.32 mW  
+ 10,7 us/s;  0,5;;;;kWork;i915_hangcheck_elapsed; 2.15 mW  
+  9,2 us/s;  0,5;;;;kWork;i915_gem_idle_work_handler; 2.15 mW  
+111,2 us/s;  0,5;;;  0,1;Process;[PID 671] xfce4-panel ; 2.06 mW  
+ 65,2 us/s;  0,5;;;;Process;[PID 1463] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 2.01 mW  
+ 18,7 us/s;  0,5;;;;kWork;i915_gem_retire_work_handler; 1.97 mW  
+ 40,7 us/s;  0,4;;;;Process;[PID 813] /usr/bin/dockerd -H fd:// ; 1.79 mW  
+ 18,0 us/s;  0,4;;;;kWork;blk_mq_run_work_fn; 1.77 mW  
+  4,2 us/s;  0,4;;;;kWork;blk_mq_requeue_work; 1.76 mW  
+ 21,0 us/s;  0,4;;;;Process;[PID 7423] /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 6443 -prefMapSize 208835 -parentBuildID 201; 1.58 mW  
+212,9 us/s;  0,3;;;  0,1;Process;[PID 700] xfdesktop ; 1.58 mW  
+123,0 us/s;  0,3;;;;Process;[PID 760] nm-applet ; 1.49 mW  
+ 95,5 us/s;  0,3;;;;Process;[PID 1380] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 1.46 mW  
+  5,1 us/s;  0,3;;;;Process;[PID 1045] containerd-shim -namespace moby -workdir /var/lib/docker/containerd/daemon/io.containerd.runtime.v1.linux/moby/a7822; 1.37 mW  
+150,7 us/s; 0,30;;;  0,1;Process;[PID 702] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libsystray.so 25 12582924 systray Benachrichtigungsflä; 1.32 mW  
+102,8 us/s; 0,30;;;;Process;[PID 1384] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 1.27 mW  
+ 85,5 us/s; 0,30;;;;Process;[PID 1395] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ; 1.25 mW  
+ 48,9 us/s; 0,25;;;;Process;[PID 697] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libwhiskermenu.so 8 12582923 whiskermenu Whisker-Menü ; 1.02 mW  
+ 48,2 us/s; 0,25;;;;Process;[PID 22] [rcuc/1]; 1.02 mW  
+ 23,9 us/s; 0,25;;;;kWork;wb_workfn;  998 uW  
+ 20,3 us/s; 0,25;;;;Process;[PID 663] /usr/bin/gpg-agent --supervised ;  994 uW  
+ 14,1 us/s; 0,25;;;;Process;[PID 686] Thunar --daemon ;  988 uW  
+ 13,4 us/s; 0,25;;;;Process;[PID 429] /usr/lib/accounts-daemon ;  988 uW  
+ 68,8 us/s; 0,20;;;;Process;[PID 1466] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ;  848 uW  
+ 52,4 us/s; 0,20;;;;Process;[PID 187] [jbd2/sda1-8];  832 uW  
+ 32,3 us/s; 0,20;;;;Process;[PID 1408] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion ;  812 uW  
+  0,8 ms/s;;;;;Timer;hrtimer_wakeup;  794 uW  
+  7,1 us/s; 0,20;;;;Process;[PID 689] /usr/lib/rtkit-daemon ;  786 uW  
+
+
+The battery reports a discharge rate of:  7.20  W;
+
+The power consumed was :  146  J;
+
+The system baseline power is estimated at:  1.77  W;
+____________________________________________________________________
+ *  *  *   Device Power Report   *  *  *
+
+Usage;Device Name;PW Estimate
+  8,2%;DRAM;  1.04 W   
+  8,2%;CPU misc;  524 mW   
+  8,2%;CPU core;  198 mW   
+ 20,2%;Display backlight;    0 mW   
+100,0%;USB-Gerät: EMV Smartcard Reader (Generic);           
+100,0%;Funk-Gerät:iwlwifi;           
+100,0%;Funk-Gerät:thinkpad_acpi;           
+100,0%;USB-Gerät: xHCI Host Controller;           
+100,0%;Funk-Gerät:btusb;           
+100,0%;PCI-Gerät: Intel Corporation Wireless 7265;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP LPC Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP SMBus Controller;           
+100,0%;PCI-Gerät: Intel Corporation Broadwell-U Host Bridge -OPI;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #3;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP Thermal Management Controller;           
+100,0%;PCI-Gerät: Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader;           
+100,0%;PCI-Gerät: Intel Corporation HD Graphics 5500;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP USB xHCI Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #6;           
+  0,5 pkts/s;Netzwerkschnittstelle: wlp3s0 (iwlwifi);           
+  0,0 pkts/s;nic:br-b0ad2094b156;           
+  0,0 pkts/s;nic:veth167fc78;           
+  0,0 pkts/s;nic:docker0;           
+  0,0 pkts/s;Netzwerkschnittstelle: enp0s25 (e1000e);           
+  0,0%;Thinkpad light;           
+  0,0%;Audiocodec hwC0D0: Intel;           
+  0,0%;Audiocodec hwC1D0: Realtek;           
+  0,0%;USB-Gerät: usb-device-8087-0a2a;           
+  0,0%;USB-Gerät: usb-device-8087-8001;           
+  0,0%;USB-Gerät: Integrated Camera (J8AF5S044);           
+  0,0%;USB-Gerät: EHCI Host Controller;           
+  0,0%;USB-Gerät: xHCI Host Controller;           
+  0,0%;runtime-PCCT;           
+  0,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP High Definition Audio Controller;           
+  0,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP MEI Controller #1;           
+  0,0%;runtime-INT340F:00;           
+  0,0%;PCI-Gerät: Intel Corporation Ethernet Connection (3) I218-LM;           
+  0,0%;PCI-Gerät: Intel Corporation Broadwell-U Audio Controller;           
+  0,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP USB EHCI Controller;           
+  0,0%;runtime-iTCO_wdt.0.auto;           
+  0,0%;runtime-PNP0C14:00;           
+  0,0%;runtime-reg-dummy;           
+  0,0%;runtime-rtsx_pci_sdmmc.0;           
+  0,0%;runtime-PNP0C0D:00;           
+  0,0%;runtime-PNP0C09:00;           
+  0,0%;runtime-PNP0C0A:00;           
+  0,0%;runtime-thinkpad_hwmon;           
+  0,0%;runtime-ACPI0003:00;           
+  0,0%;runtime-PNP0C0E:00;           
+  0,0%;I2C Adapter (i2c-2): i915 gmbus dpc;           
+  0,0%;runtime-bootsplash.0;           
+  0,0%;I2C Adapter (i2c-0): SMBus I801 adapter at efa0;           
+  0,0%;I2C Adapter (i2c-7): DPDDC-C;           
+  0,0%;runtime-PNP0800:00;           
+  0,0%;runtime-regulatory.0;           
+  0,0%;runtime-alarmtimer;           
+  0,0%;runtime-dock.0;           
+  0,0%;runtime-coretemp.0;           
+  0,0%;runtime-thinkpad_acpi;           
+  0,0%;runtime-vesa-framebuffer.0;           
+  0,0%;runtime-PNP0C14:01;           
+  0,0%;runtime-LEN0068:00;           
+  0,0%;runtime-microcode;           
+  0,0%;I2C Adapter (i2c-1): i915 gmbus vga;           
+  0,0%;runtime-PNP0103:00;           
+  0,0%;I2C Adapter (i2c-4): i915 gmbus dpd;           
+  0,0%;runtime-PNP0C04:00;           
+  0,0%;runtime-serial8250;           
+  0,0%;runtime-i8042;           
+  0,0%;I2C Device (0-002c): rmi4_smbus;           
+  0,0%;I2C Adapter (i2c-6): DPDDC-B;           
+  0,0%;I2C Adapter (i2c-5): DPDDC-A;           
+  0,0%;runtime-rtsx_pci_ms.0;           
+  0,0%;runtime-PNP0C14:02;           
+  0,0%;runtime-pcspkr;           
+  0,0%;runtime-intel-spi;           
+  0,0%;I2C Adapter (i2c-3): i915 gmbus dpb;           
+____________________________________________________________________
+ *  *  *   Process Device Activity   *  *  *
+
+Process;Device
+systemd;/dev/autofs
+;/dev/kmsg
+systemd-journal;/dev/kmsg
+;/dev/kmsg
+systemd-logind;/dev/input/event0
+;/dev/input/event1
+;/dev/input/event2
+;/dev/input/event3
+;/dev/input/event5
+Xorg;/dev/dri/card0
+;/dev/input/event1
+;/dev/input/event11
+;/dev/input/event12
+;/dev/input/event13
+;/dev/input/event14
+;/dev/input/event2
+;/dev/input/event3
+;/dev/input/event5
+;/dev/vga_arbiter
+wpa_supplicant;/dev/rfkill
+;/dev/rfkill
+xfce4-session;/dev/dri/renderD128
+gvfsd-fuse;/dev/fuse
+xfwm4;/dev/dri/renderD128
+pulseaudio;/dev/snd/controlC0
+;/dev/snd/controlC1
+;/dev/snd/controlC1
+;/dev/snd/controlC1
+upowerd;/dev/input/event0
+libinput-debug-;/dev/input/event13
+xdg-document-po;/dev/fuse
+
+____________________________________________________________________
+ *  *  *   AHCI ALPM Residency Statistics - Not supported on this macine   *  *  *
+
+____________________________________________________________________
+ *  *  *   Software Settings in Need of Tuning   *  *  *
+
+Description;Script
+Enable SATA link power management for host0;echo 'min_power' > '/sys/class/scsi_host/host0/link_power_management_policy';
+Enable SATA link power management for host1;echo 'min_power' > '/sys/class/scsi_host/host1/link_power_management_policy';
+Enable SATA link power management for host2;echo 'min_power' > '/sys/class/scsi_host/host2/link_power_management_policy';
+Zeitüberschreitung beim VM zurückschreiben;echo '1500' > '/proc/sys/vm/dirty_writeback_centisecs';
+AutoSuspend für USB-Gerät EMV Smartcard Reader [Generic];echo 'auto' > '/sys/bus/usb/devices/2-5/power/control';
+Runtime PM for port ata2 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata2/power/control';
+Runtime PM for port ata3 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata3/power/control';
+Runtime PM for port ata1 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata1/power/control';
+____________________________________________________________________
+ *  *  *   Untunable Software Issues   *  *  *
+
+Description
+Runtime PM for disk sda
+I2C Adapter i2c-6 has no runtime power management
+I2C Device 0-002c has no runtime power management
+I2C Adapter i2c-7 has no runtime power management
+I2C Adapter i2c-5 has no runtime power management
+____________________________________________________________________
+ *  *  *   Optimal Tuned Software Settings   *  *  *
+
+Description
+NMI watchdog sollte ausgeschaltet sein
+Bluetooth-Gerät Schnittstellenstatus
+Energieverwaltung für Audiocodec aktivieren
+Runtime PM for I2C Adapter i2c-0 (SMBus I801 adapter at efa0)
+AutoSuspend für USB-Gerät xHCI Host Controller [usb2]
+AutoSuspend für unbekanntes USB-Gerät 1-1 (8087:8001)
+Runtime PM for I2C Adapter i2c-1 (i915 gmbus vga)
+AutoSuspend für USB-Gerät Integrated Camera [J8AF5S044]
+AutoSuspend für USB-Gerät EHCI Host Controller [usb1]
+AutoSuspend für USB-Gerät xHCI Host Controller [usb3]
+Runtime PM for I2C Adapter i2c-3 (i915 gmbus dpb)
+Runtime PM for I2C Adapter i2c-4 (i915 gmbus dpd)
+Runtime PM for I2C Adapter i2c-2 (i915 gmbus dpc)
+AutoSuspend für unbekanntes USB-Gerät 2-7 (8087:0a2a)
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wireless 7265
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #6
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP LPC Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP MEI Controller #1
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP High Definition Audio Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Ethernet Connection (3) I218-LM
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SMBus Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Host Bridge -OPI
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode]
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Audio Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP Thermal Management Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB EHCI Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation HD Graphics 5500
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB xHCI Controller
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #3
+
+____________________________________________________________________
+ *  *  *   Wake status of the devices   *  *  *
+
+Description;Script
+Wake-On-LAN-Status für Gerät wlp3s0;echo 'enabled' > '/sys/class/net/wlp3s0/device/power/wakeup';
+Wake status for USB device usb3;echo 'enabled' > '/sys/bus/usb/devices/usb3/power/wakeup';
+Wake status for USB device usb1;echo 'enabled' > '/sys/bus/usb/devices/usb1/power/wakeup';
+Wake status for USB device 1-1;echo 'enabled' > '/sys/bus/usb/devices/1-1/power/wakeup';
+Wake status for USB device usb2;echo 'enabled' > '/sys/bus/usb/devices/usb2/power/wakeup';
+Wake status for USB device 2-7;echo 'enabled' > '/sys/bus/usb/devices/2-7/power/wakeup';
+Wake status for USB device 2-5;echo 'enabled' > '/sys/bus/usb/devices/2-5/power/wakeup';

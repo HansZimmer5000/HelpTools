@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title>PowerTOP report</title>
+<meta http-equiv='content-type' content='text/html;charset=utf-8'>
+
+<script type='text/javascript'>
+
+var powertop = {
+blocks: {
+summary: 'Summary',
+cpuidle: 'CPU Idle',
+cpufreq: 'CPU Frequency',
+software: 'Software Info',
+devinfo: 'Device Info',
+tuning: 'Tuning',
+ahci: 'AHCI'
+},
+cadd: function(idx, c){
+var el = document.getElementById(idx);
+if (el) {
+var cn = el.className;
+if (cn.indexOf(c) != -1)
+return;
+cn += ' ' + c;
+el.className = cn;
+}
+},
+crm: function(id, c){
+var el = document.getElementById(id);
+if (el) {
+var cn = el.className
+while (cn.indexOf(' ' + c) != -1)
+cn = cn.replace(' ' + c,'');
+el.className = cn;
+}
+},
+newbutton: function(id, txt) {
+var x = document.createElement('div');
+x.id = id + '_button';
+x.className = 'nav_button';
+x.textContent = txt;
+x.innerText = txt;
+x.onclick = function() { powertop.toggle(id); };
+return x;
+},
+setupbuttons: function() {
+var t = document.getElementById('main_menu');
+if (t) {
+for (var b in powertop.blocks) {
+t.appendChild(powertop.newbutton(b, powertop.blocks[b]));
+}
+t.appendChild(powertop.newbutton('all', 'All'));
+}
+},
+toggle: function(b) {
+powertop.baseall();
+if (b == 'all') {
+for (var c in powertop.blocks) {
+powertop.crm(c, 'hide');
+}
+} else {
+powertop.crm(b, 'hide');
+}
+powertop.cadd(b + '_button', 'pressed');
+},
+baseall: function() {
+for (var b in powertop.blocks) {
+powertop.cadd(b, 'hide');
+powertop.crm(b + '_button', 'pressed');
+}
+powertop.cadd('all', 'hide');
+powertop.crm('all_button', 'pressed');
+},
+onload: function() {
+powertop.setupbuttons();
+powertop.toggle('summary');
+}
+}
+</script>
+
+<style type='text/css'>
+/* General CSS */
+*{
+margin:0px;
+padding:0px;
+width: auto;
+}
+
+body {
+background-color: #eee; /* Background color */
+color: #222;            /* Font color */
+font-family: Helvetica;
+font-size: 14px;
+}
+
+#main_container{
+margin: 2px auto;
+}
+
+/* Top logo & system table css */
+#main_header{
+min-width: 960px;
+}
+
+img.pwtop_logo{
+float:left;
+height:40%;
+width: 40%;
+padding:20px;
+}
+
+.sys_info
+{
+float: right;
+height:116px;
+width:450px;
+font-size: 12px;
+text-align: left;
+}
+
+th{
+text-align: left;
+}
+
+/* CSS Main Content */
+
+.content_title
+{
+color: #296629;
+padding:0px;
+margin:2px;
+}
+
+#chart_div{
+float: left;
+}
+
+.small
+{
+font-size: 10px;
+}
+
+table.emphasis2
+{
+font-size: 13px;
+max-width:95%;
+}
+
+
+th.emph_title {
+padding:5px;
+}
+
+tr.emph1:nth-child(odd) {
+background: #ffffff;
+}
+
+tr.emph1:nth-child(even) {
+background: #ebebeb;
+}
+
+tr.tune:nth-child(odd) {
+background: #fffcfc;
+}
+tr.tune:nth-child(even) {
+background: #fff0f0;
+}
+
+td.no_wrap:first-child {
+white-space:nowrap;
+}
+
+.side_by_side_left{
+float:left;
+}
+.side_by_side_right{
+float:right;
+}
+
+#device{
+display: inline-block;
+}
+.clear_block{
+clear:both;
+}
+
+td.package{
+background-color: #e0ddfa; /*purple*/
+}
+
+td.core{
+background-color: #d1ddff; /*ccebff; /*blue*/
+}
+
+td.cpu{
+background-color: #ffffeb; /* yellow */
+}
+
+th.title{
+text-align: center;
+/*border-bottom: 1px solid #666;*/
+}
+
+
+li.summary_list
+{
+display: inline;
+padding: 5px;
+background-color: #f6f6f9;
+font-size: 12px;
+}
+
+
+
+/* main menu css*/
+#main_menu {
+clear:both;
+font-weight: bold;
+padding: 5px 0;
+text-align: left;
+background-image: -webkit-gradient(linear, left top, left bottom,
+from(#aaa), to(#eee));
+background: -moz-linear-gradient(top,  #aaa,  #eee);
+}
+
+
+#main_menu div {
+font-size: 12px;
+font-weight: bold;
+color: white;
+}
+
+#main_menu div.nav_button {
+margin: 0 0.2em;
+display: inline;
+cursor: pointer;
+color: #223232;
+font-size: 13px;
+font-weight: bold;
+padding: 5px;
+text-align: center;
+text-decoration: none;
+}
+
+div.pressed {
+border: -webkit-gradient(linear, left top, left bottom,
+from(#b2ffb2), to(#e0ffe0));
+border-width:0px 8px 0px 8px;
+background: #999;
+background-image: -webkit-gradient(linear, left top, left bottom,
+from(#b2ffb2), to(#e0ffe0));
+background: -moz-linear-gradient(top,  #b2ffb2,  #e0ffe0);
+}
+
+div.hide {
+display: none;
+}
+</style>
+</head>
+
+<body onload='powertop.onload();'>
+<div id="main_container">
+<header id="main_header">
+<img alt="PowerTop" class="pwtop_logo" src="data:image/png;base64,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"><div class="sys_info">
+<h2 class="content_title"> System Information </h2>
+<table class="emphasis1">
+<tr> <th class="table_sysinfo"> PowerTOP Version </th> <td > v2.11 ran at Sun Dec 29 20:58:41 2019
+ </td> </tr>
+<tr> <th class="table_sysinfo"> Kernel Version </th> <td > Linux version 4.19.88-1-MANJARO </td> </tr>
+<tr> <th class="table_sysinfo"> System Name </th> <td > LENOVO20CLS2LK00ThinkPad X250 </td> </tr>
+<tr> <th class="table_sysinfo"> CPU Information </th> <td > 4 Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz </td> </tr>
+<tr> <th class="table_sysinfo"> OS Information </th> <td > Manjaro Linux </td> </tr>
+</table>
+</header>
+
+</div>
+<br/><div id="main_menu"> </div>
+<div><br/> <ul>
+<li class="summary_list"> <b> Target: </b> 1 units/s </li><li class="summary_list"> <b> System:  </b> 704.7 wakeup/s </li><li class="summary_list"> <b> CPU:  </b> 32.6% usage </li><li class="summary_list"> <b> GPU: </b> 0 ops/s </li><li class="summary_list"> <b> GFX: </b> 56.4 wakeups/s </li><li class="summary_list"> <b> VFS: </b> 0 ops/s </li></ul> </div> <br />
+<div class="clear_block" id="summary">
+<h2 class="content_title"> Top 10 Power Consumers </h2>
+<table class="emphasis2">
+<tr class="emph1"> <th class="emph_title"> Auslastung </th> <th class="emph_title"> Ereignisse/s </th> <th class="emph_title"> Kategorie </th> <th class="emph_title"> Beschreibung </th> <th class="emph_title"> PW Estimate </th> </tr>
+<tr class="emph1"> <td >   0,8% </td> <td > 240,3 </td> <td > Timer </td> <td > tick_sched_timer </td> <td >   945 mW   </td> </tr>
+<tr class="emph1"> <td >   0,2% </td> <td >  46,0 </td> <td > Process </td> <td > [PID 4685] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 209301 -parentBuildID 201 </td> <td >   181 mW   </td> </tr>
+<tr class="emph1"> <td >   0,7% </td> <td >  37,5 </td> <td > Process </td> <td > [PID 27859] /usr/lib/firefox/firefox  </td> <td >   153 mW   </td> </tr>
+<tr class="emph1"> <td >   0,3% </td> <td >  33,5 </td> <td > Timer </td> <td > hrtimer_wakeup </td> <td >   134 mW   </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td >  25,4 </td> <td > Interrupt </td> <td > [0] HI_SOFTIRQ </td> <td >  99.3 mW   </td> </tr>
+<tr class="emph1"> <td >   4,1% </td> <td >  13,8 </td> <td > Process </td> <td > [PID 28059] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 209301 -parentBuildID 20 </td> <td >  95.1 mW   </td> </tr>
+<tr class="emph1"> <td >   0,1% </td> <td >  20,9 </td> <td > Process </td> <td > [PID 10] [rcu_preempt] </td> <td >  82.2 mW   </td> </tr>
+<tr class="emph1"> <td >   0,1% </td> <td >  19,1 </td> <td > Interrupt </td> <td > [18] i801_smbus </td> <td >  75.7 mW   </td> </tr>
+<tr class="emph1"> <td >   0,2% </td> <td >  17,5 </td> <td > Process </td> <td > [PID 481] [irq/50-rmi4_smb] </td> <td >  69.9 mW   </td> </tr>
+<tr class="emph1"> <td >   1,1% </td> <td >  14,1 </td> <td > Interrupt </td> <td > [7] sched(softirq) </td> <td >  65.5 mW   </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="cpuidle">
+<h2 class="content_title"> Processor Idle State Report </h2>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title"> Paket </th> <th class="title"> 0 </th> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package"> C2 (pc2) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C3 (pc3) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C6 (pc6) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C7 (pc7) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C8 (pc8) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C9 (pc9) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> C10 (pc10) </td> <td class="package">   0,0% </td> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+</table>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title">  </th> <th class="title"> Core 0 </th> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> C3 (cc3) </td> <td class="core">   1,0% </td> </tr>
+<tr> <td class="core"> C6 (cc6) </td> <td class="core">   0,4% </td> </tr>
+<tr> <td class="core"> C7 (cc7) </td> <td class="core">  63,9% </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <th class="title">  </th> <th class="title"> Core 1 </th> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> C3 (cc3) </td> <td class="core">   0,9% </td> </tr>
+<tr> <td class="core"> C6 (cc6) </td> <td class="core">   0,5% </td> </tr>
+<tr> <td class="core"> C7 (cc7) </td> <td class="core">  65,8% </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <th class="title">  </th> <th class="title"> GPU 1868787570 </th> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> Powered On </td> <td class="core"> 100,0% </td> </tr>
+<tr> <td class="core"> RC6 </td> <td class="core">   0,0% </td> </tr>
+<tr> <td class="core"> RC6p </td> <td class="core">   0,0% </td> </tr>
+<tr> <td class="core"> RC6pp </td> <td class="core">   0,0% </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+</table>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title"> &nbsp; </th> <th class="title"> CPU </th> <th class="title"> 0 </th> <th class="title"> CPU </th> <th class="title"> 1 </th> </tr>
+<tr> <th class="title"> C0 aktiv </th> <td class="cpu">   8,1% </td> <td class="cpu"> &nbsp; </td> <td class="cpu">   6,9% </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> POLL </th> <td class="cpu">   0,0% </td> <td class="cpu">    0,1 ms </td> <td class="cpu">   0,0% </td> <td class="cpu">    0,1 ms </td> </tr>
+<tr> <th class="title"> C1 </th> <td class="cpu">   0,6% </td> <td class="cpu">    0,1 ms </td> <td class="cpu">   0,8% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> C3 </th> <td class="cpu">   1,1% </td> <td class="cpu">    0,3 ms </td> <td class="cpu">   0,9% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title"> C6 </th> <td class="cpu">   0,5% </td> <td class="cpu">    0,5 ms </td> <td class="cpu">   0,4% </td> <td class="cpu">    0,4 ms </td> </tr>
+<tr> <th class="title"> C7s </th> <td class="cpu">   2,5% </td> <td class="cpu">    0,7 ms </td> <td class="cpu">   2,0% </td> <td class="cpu">    0,6 ms </td> </tr>
+<tr> <th class="title"> C8 </th> <td class="cpu">   6,6% </td> <td class="cpu">    1,0 ms </td> <td class="cpu">   5,7% </td> <td class="cpu">    1,1 ms </td> </tr>
+<tr> <th class="title"> C9 </th> <td class="cpu">  23,3% </td> <td class="cpu">    1,8 ms </td> <td class="cpu">  27,6% </td> <td class="cpu">    2,1 ms </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> C10 </th> <td class="cpu">  42,7% </td> <td class="cpu">    6,7 ms </td> <td class="cpu">  42,7% </td> <td class="cpu">    9,7 ms </td> </tr>
+<tr> <th class="title"> C1E </th> <td class="cpu">   0,5% </td> <td class="cpu">    0,2 ms </td> <td class="cpu">   0,9% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title"> &nbsp; </th> <th class="title"> CPU </th> <th class="title"> 2 </th> <th class="title"> CPU </th> <th class="title"> 3 </th> </tr>
+<tr> <th class="title"> C0 aktiv </th> <td class="cpu">   6,7% </td> <td class="cpu"> &nbsp; </td> <td class="cpu">   6,9% </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> POLL </th> <td class="cpu">   0,0% </td> <td class="cpu">    0,1 ms </td> <td class="cpu">   0,0% </td> <td class="cpu">    0,1 ms </td> </tr>
+<tr> <th class="title"> C1 </th> <td class="cpu">   0,6% </td> <td class="cpu">    0,2 ms </td> <td class="cpu">   0,7% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> C3 </th> <td class="cpu">   0,9% </td> <td class="cpu">    0,3 ms </td> <td class="cpu">   0,9% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title"> C6 </th> <td class="cpu">   0,5% </td> <td class="cpu">    0,5 ms </td> <td class="cpu">   0,5% </td> <td class="cpu">    0,5 ms </td> </tr>
+<tr> <th class="title"> C7s </th> <td class="cpu">   2,0% </td> <td class="cpu">    0,6 ms </td> <td class="cpu">   2,0% </td> <td class="cpu">    0,6 ms </td> </tr>
+<tr> <th class="title"> C8 </th> <td class="cpu">   6,4% </td> <td class="cpu">    1,0 ms </td> <td class="cpu">   6,2% </td> <td class="cpu">    1,1 ms </td> </tr>
+<tr> <th class="title"> C9 </th> <td class="cpu">  25,8% </td> <td class="cpu">    1,9 ms </td> <td class="cpu">  25,8% </td> <td class="cpu">    2,0 ms </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> C10 </th> <td class="cpu">  44,7% </td> <td class="cpu">    7,5 ms </td> <td class="cpu">  44,2% </td> <td class="cpu">    9,0 ms </td> </tr>
+<tr> <th class="title"> C1E </th> <td class="cpu">   0,7% </td> <td class="cpu">    0,2 ms </td> <td class="cpu">   0,9% </td> <td class="cpu">    0,3 ms </td> </tr>
+<tr> <th class="title"> &nbsp; </th> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="cpufreq">
+<h2 class="content_title"> Processor Frequency Report </h2>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title"> Paket </th> <th class="title"> 0 </th> </tr>
+<tr> <td class="package"> &nbsp; </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package"> Idle </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  800 MHz </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  600 MHz </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  700 MHz </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  500 MHz </td> <td class="package"> &nbsp; </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+<tr> <td class="package">  </td> <td class="package">  </td> </tr>
+</table>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title">  </th> <th class="title"> Core 0 </th> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> Idle </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  800 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  600 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  700 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <th class="title">  </th> <th class="title"> Core 1 </th> </tr>
+<tr> <td class="core"> &nbsp; </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core"> Idle </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  800 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  600 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  700 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <td class="core">  500 MHz </td> <td class="core"> &nbsp; </td> </tr>
+<tr> <th class="title">  </th> <th class="title">  </th> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+<tr> <td class="core">  </td> <td class="core">  </td> </tr>
+</table>
+<table class="emphasis2 side_by_side_left">
+<tr> <th class="title"> &nbsp; </th> <th class="title"> CPU 0 </th> <th class="title"> CPU 1 </th> </tr>
+<tr> <th class="title"> Average </th> <td class="cpu">    798 MHz </td> <td class="cpu">    798 MHz </td> </tr>
+<tr> <th class="title"> Idle </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  800 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  600 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  700 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> &nbsp; </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> &nbsp; </th> <th class="title"> CPU 2 </th> <th class="title"> CPU 3 </th> </tr>
+<tr> <th class="title"> Average </th> <td class="cpu">    798 MHz </td> <td class="cpu">    798 MHz </td> </tr>
+<tr> <th class="title"> Idle </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  800 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  600 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  700 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title">  500 MHz </th> <td class="cpu"> &nbsp; </td> <td class="cpu"> &nbsp; </td> </tr>
+<tr> <th class="title"> &nbsp; </th> <th class="title">  </th> <th class="title">  </th> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <th class="title">  </th> <th class="title">  </th> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+<tr> <th class="title">  </th> <td class="cpu">  </td> <td class="cpu">  </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="software">
+<h2 class="content_title"> Übersicht der Software-Leistungsverbraucher </h2>
+<table class="emphasis2">
+<tr class="emph1"> <th class="emph_title"> Auslastung </th> <th class="emph_title"> Aufwachvorgänge/s </th> <th class="emph_title"> GPU-Operationen/s </th> <th class="emph_title"> Platten-Ein-/Ausgabe/s </th> <th class="emph_title"> GFX-Aufwachvorgänge/s </th> <th class="emph_title"> Kategorie </th> <th class="emph_title"> Beschreibung </th> <th class="emph_title"> PW Estimate </th> </tr>
+<tr class="emph1"> <td class="no_wrap">   8,1 ms/s </td> <td class="no_wrap"> 240,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Timer </td> <td class="no_wrap"> tick_sched_timer </td> <td class="no_wrap">   945 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,7 ms/s </td> <td class="no_wrap">  46,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 4685] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 209301 -parentBuildID 201 </td> <td class="no_wrap">   181 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   6,9 ms/s </td> <td class="no_wrap">  37,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  18,0 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 27859] /usr/lib/firefox/firefox  </td> <td class="no_wrap">   153 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   2,9 ms/s </td> <td class="no_wrap">  33,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Timer </td> <td class="no_wrap"> hrtimer_wakeup </td> <td class="no_wrap">   134 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 402,7 us/s </td> <td class="no_wrap">  25,4 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [0] HI_SOFTIRQ </td> <td class="no_wrap">  99.3 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  41,3 ms/s </td> <td class="no_wrap">  13,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 28059] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 209301 -parentBuildID 20 </td> <td class="no_wrap">  95.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 616,2 us/s </td> <td class="no_wrap">  20,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 10] [rcu_preempt] </td> <td class="no_wrap">  82.2 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,4 ms/s </td> <td class="no_wrap">  19,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [18] i801_smbus </td> <td class="no_wrap">  75.7 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,7 ms/s </td> <td class="no_wrap">  17,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   3,5 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 481] [irq/50-rmi4_smb] </td> <td class="no_wrap">  69.9 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  10,6 ms/s </td> <td class="no_wrap">  14,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [7] sched(softirq) </td> <td class="no_wrap">  65.5 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  39,7 ms/s </td> <td class="no_wrap">   5,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   2,4 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19541] xfce4-taskmanager  </td> <td class="no_wrap">  62.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 376,6 us/s </td> <td class="no_wrap">  15,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> free_work </td> <td class="no_wrap">  61.9 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   4,9 ms/s </td> <td class="no_wrap">  10,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   6,9 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 682] xfwm4  </td> <td class="no_wrap">  45.2 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  28,5 ms/s </td> <td class="no_wrap">   2,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> intel_atomic_commit_work </td> <td class="no_wrap">  38.9 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 435,5 us/s </td> <td class="no_wrap">   9,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25543] java -classpath /home/hanszimmer/.vscode-oss/extensions/adamvoss.vscode-languagetool-3.8.0/lib/languagetool-languag </td> <td class="no_wrap">  38.2 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   8,8 ms/s </td> <td class="no_wrap">   5,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 508] /usr/lib/Xorg :0 -seat seat0 -auth /run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch  </td> <td class="no_wrap">  28.8 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,7 ms/s </td> <td class="no_wrap">   6,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 809] /usr/bin/dockerd -H fd://  </td> <td class="no_wrap">  27.8 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,6 ms/s </td> <td class="no_wrap">   6,2 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25384] /usr/lib/electron6/electron --type=renderer --disable-color-correct-rendering --no-sandbox --field-trial-handle=152 </td> <td class="no_wrap">  25.9 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 249,5 us/s </td> <td class="no_wrap">   6,2 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 858] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  24.6 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,8 ms/s </td> <td class="no_wrap">   5,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 27866] /usr/lib/firefox/firefox  </td> <td class="no_wrap">  23.4 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,6 ms/s </td> <td class="no_wrap">   5,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   3,1 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 726] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libcpufreq.so 14 12582928 cpufreq CPU-Frequenzüberwach </td> <td class="no_wrap">  21.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 241,6 us/s </td> <td class="no_wrap">   5,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 816] /usr/bin/dockerd -H fd://  </td> <td class="no_wrap">  19.7 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 130,6 us/s </td> <td class="no_wrap">   5,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> gc_worker </td> <td class="no_wrap">  19.6 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 432,2 us/s </td> <td class="no_wrap">   4,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 22] [rcuc/1] </td> <td class="no_wrap">  16.4 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 227,4 us/s </td> <td class="no_wrap">   3,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 441] [irq/49-iwlwifi] </td> <td class="no_wrap">  15.6 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 479,2 us/s </td> <td class="no_wrap">   3,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 29] [rcuc/2] </td> <td class="no_wrap">  15.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 526,4 us/s </td> <td class="no_wrap">   3,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 13] [rcuc/0] </td> <td class="no_wrap">  14.7 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,8 ms/s </td> <td class="no_wrap">   3,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [9] acpi </td> <td class="no_wrap">  14.4 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   6,6 ms/s </td> <td class="no_wrap">   1,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19762] tlp-stat </td> <td class="no_wrap">  13.6 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   6,5 ms/s </td> <td class="no_wrap">   1,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19925] tlp-stat </td> <td class="no_wrap">  13.5 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   6,8 ms/s </td> <td class="no_wrap">   1,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20088] tlp-stat </td> <td class="no_wrap">  13.5 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  74,6 us/s </td> <td class="no_wrap">   3,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> intel_atomic_cleanup_work </td> <td class="no_wrap">  12.3 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 439,4 us/s </td> <td class="no_wrap">   3,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 36] [rcuc/3] </td> <td class="no_wrap">  12.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  45,0 us/s </td> <td class="no_wrap">   2,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> gen6_pm_rps_work </td> <td class="no_wrap">  11.3 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  14,4 us/s </td> <td class="no_wrap">   2,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> intel_atomic_helper_free_state_ </td> <td class="no_wrap">  11.1 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 616,7 us/s </td> <td class="no_wrap">   2,4 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 870] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  9.96 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   2,8 ms/s </td> <td class="no_wrap">   1,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19599] tlp-stat </td> <td class="no_wrap">  9.81 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,0 ms/s </td> <td class="no_wrap">   2,2 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [48] i915 </td> <td class="no_wrap">  9.58 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 329,5 us/s </td> <td class="no_wrap">   2,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> __i915_gem_free_work </td> <td class="no_wrap">  9.48 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 234,7 us/s </td> <td class="no_wrap">   2,2 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 897] /usr/bin/dockerd -H fd://  </td> <td class="no_wrap">  8.80 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   2,8 ms/s </td> <td class="no_wrap">   1,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [9] RCU(softirq) </td> <td class="no_wrap">  8.59 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 323,3 us/s </td> <td class="no_wrap">   2,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 28073] /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 7175 -prefMapSize 209301 -parentBuildID 20 </td> <td class="no_wrap">  8.50 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 548,5 us/s </td> <td class="no_wrap">   1,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 814] libinput-debug-events --device /dev/input/event14  </td> <td class="no_wrap">  8.14 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 144,3 us/s </td> <td class="no_wrap">   1,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 819] /usr/bin/dockerd -H fd://  </td> <td class="no_wrap">  7.74 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 671,9 us/s </td> <td class="no_wrap">   1,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   0,1 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 720] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libpulseaudio-plugin.so 1 12582925 pulseaudio PulseAudi </td> <td class="no_wrap">  7.10 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 130,0 us/s </td> <td class="no_wrap">   1,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 1529] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  6.75 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 238,2 us/s </td> <td class="no_wrap">   1,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 27898] /usr/lib/firefox/firefox  </td> <td class="no_wrap">  6.08 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 411,2 us/s </td> <td class="no_wrap">   1,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  21,7 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 729] xfdesktop  </td> <td class="no_wrap">  4.89 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  37,7 us/s </td> <td class="no_wrap">   1,2 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 889] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  4.71 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 150,9 us/s </td> <td class="no_wrap">   1,1 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 871] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  4.63 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 163,2 us/s </td> <td class="no_wrap">   1,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25427] /usr/lib/electron6/electron --inspect-port=0 /usr/lib/code/out/bootstrap-fork --type=extensionHost  </td> <td class="no_wrap">  4.25 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 252,6 us/s </td> <td class="no_wrap">   1,0 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 874] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  4.15 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 189,3 us/s </td> <td class="no_wrap">   0,9 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 899] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  3.89 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 180,3 us/s </td> <td class="no_wrap">   0,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 861] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  3.30 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  60,7 us/s </td> <td class="no_wrap">   0,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   0,4 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 710] /usr/bin/redshift -v  </td> <td class="no_wrap">  3.18 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  60,0 us/s </td> <td class="no_wrap">   0,8 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20116] cat </td> <td class="no_wrap">  3.18 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,0 ms/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19593] powertop --html=powertop_29_12_2019.html  </td> <td class="no_wrap">  3.17 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 434,6 us/s </td> <td class="no_wrap">   0,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 869] containerd --config /var/run/docker/containerd/containerd.toml --log-level info  </td> <td class="no_wrap">  3.16 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  48,6 us/s </td> <td class="no_wrap">   0,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19790] cat </td> <td class="no_wrap">  2.97 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  27,3 us/s </td> <td class="no_wrap">   0,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Timer </td> <td class="no_wrap"> it_real_fn </td> <td class="no_wrap">  2.95 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 328,7 us/s </td> <td class="no_wrap">   0,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> iwl_fw_timestamp_marker_wk </td> <td class="no_wrap">  2.86 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  81,4 us/s </td> <td class="no_wrap">   0,7 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19953] cat </td> <td class="no_wrap">  2.81 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 185,6 us/s </td> <td class="no_wrap">   0,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 9] [ksoftirqd/0] </td> <td class="no_wrap">  2.72 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   5,5 us/s </td> <td class="no_wrap">   0,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Timer </td> <td class="no_wrap"> sched_rt_period_timer </td> <td class="no_wrap">  2.54 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  13,8 us/s </td> <td class="no_wrap">   0,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> vmstat_shepherd </td> <td class="no_wrap">  2.35 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   8,6 us/s </td> <td class="no_wrap">   0,6 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> pci_pme_list_scan </td> <td class="no_wrap">  2.34 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 113,9 us/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 765] msm_notifier  </td> <td class="no_wrap">  2.26 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  62,1 us/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25510] /usr/lib/electron6/electron /home/hanszimmer/.vscode-oss/extensions/arjun.swagger-viewer-2.2.2/node_modules/vscode- </td> <td class="no_wrap">  2.20 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  31,4 us/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [49] iwlwifi </td> <td class="no_wrap">  2.17 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 132,6 us/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 27975] /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 6443 -prefMapSize 209301 -parentBuildID 20 </td> <td class="no_wrap">  2.08 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 223,1 us/s </td> <td class="no_wrap">   0,4 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 23] [ksoftirqd/1] </td> <td class="no_wrap">  1.98 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  23,9 us/s </td> <td class="no_wrap">   0,5 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25528] java -classpath /home/hanszimmer/.vscode-oss/extensions/adamvoss.vscode-languagetool-3.8.0/lib/languagetool-languag </td> <td class="no_wrap">  1.97 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,8 ms/s </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [1] timer(softirq) </td> <td class="no_wrap">  1.80 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  15,4 us/s </td> <td class="no_wrap">   0,4 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 847] /usr/lib/gvfs-afc-volume-monitor  </td> <td class="no_wrap">  1.77 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   7,9 us/s </td> <td class="no_wrap">   0,4 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Timer </td> <td class="no_wrap"> watchdog_timer_fn </td> <td class="no_wrap">  1.76 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 257,4 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">   0,2 </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 13468] /usr/bin/xfce4-terminal  </td> <td class="no_wrap">  1.62 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,4 ms/s </td> <td class="no_wrap">  0,05 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20123] tpacpi-bat </td> <td class="no_wrap">  1.61 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 205,8 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 30] [ksoftirqd/2] </td> <td class="no_wrap">  1.57 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  97,6 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 1304] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion  </td> <td class="no_wrap">  1.46 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   1,2 ms/s </td> <td class="no_wrap">  0,05 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19960] tpacpi-bat </td> <td class="no_wrap">  1.43 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,8 ms/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 312] watch tlp-stat -p  </td> <td class="no_wrap">  1.39 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  11,9 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> i915_gem_idle_work_handler </td> <td class="no_wrap">  1.37 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  11,1 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> i915_hangcheck_elapsed </td> <td class="no_wrap">  1.37 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   7,7 us/s </td> <td class="no_wrap">   0,3 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> blk_mq_requeue_work </td> <td class="no_wrap">  1.37 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 134,3 us/s </td> <td class="no_wrap">  0,30 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Interrupt </td> <td class="no_wrap"> [44] ahci[0000:00:1f.2] </td> <td class="no_wrap">  1.30 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 480,9 us/s </td> <td class="no_wrap">  0,20 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20097] tlp-stat </td> <td class="no_wrap">  1.26 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 264,8 us/s </td> <td class="no_wrap">  0,25 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 1442] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-87.4.138/dropbox /newerversion  </td> <td class="no_wrap">  1.24 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  23,9 us/s </td> <td class="no_wrap">  0,30 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> i915_gem_retire_work_handler </td> <td class="no_wrap">  1.19 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  17,2 us/s </td> <td class="no_wrap">  0,30 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 25459] /usr/lib/electron6/electron --inspect-port=0 /usr/lib/code/out/bootstrap-fork --type=extensionHost  </td> <td class="no_wrap">  1.19 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,9 ms/s </td> <td class="no_wrap">  0,05 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19797] tlp-stat </td> <td class="no_wrap">  1.06 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 457,0 us/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> kWork </td> <td class="no_wrap"> delayed_fput </td> <td class="no_wrap">  1.04 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 445,9 us/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19734] tlp-stat </td> <td class="no_wrap">  1.03 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 639,2 us/s </td> <td class="no_wrap">  0,10 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19925] watch </td> <td class="no_wrap">  1.03 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 444,5 us/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20012] tlp-stat </td> <td class="no_wrap">  1.03 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 438,6 us/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19849] tlp-stat </td> <td class="no_wrap">  1.02 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 434,9 us/s </td> <td class="no_wrap">  0,15 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19777] tlp-stat </td> <td class="no_wrap">  1.02 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap"> 610,8 us/s </td> <td class="no_wrap">  0,10 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 20175] sed </td> <td class="no_wrap">  1.00 mW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">  16,1 us/s </td> <td class="no_wrap">  0,25 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 27998] /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 6443 -prefMapSize 209301 -parentBuildID 20 </td> <td class="no_wrap">   990 uW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   9,3 us/s </td> <td class="no_wrap">  0,25 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 30828] /usr/lib/electron6/electron --inspect-port=0 /usr/lib/code/out/bootstrap-fork --type=extensionHost  </td> <td class="no_wrap">   983 uW   </td> </tr>
+<tr class="emph1"> <td class="no_wrap">   0,8 ms/s </td> <td class="no_wrap">  0,05 </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap">  </td> <td class="no_wrap"> Process </td> <td class="no_wrap"> [PID 19797] tpacpi-bat </td> <td class="no_wrap">   967 uW   </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="devinfo">
+<div><br/> <ul>
+<li class="summary_list"> <b> The battery reports a discharge rate of:  </b> 7.62  W </li></ul> </div> <br />
+<div><br/> <ul>
+<li class="summary_list"> <b> The power consumed was :  </b> 155  J </li></ul> </div> <br />
+<div><br/> <ul>
+<li class="summary_list"> <b> The system baseline power is estimated at:  </b> 3.07  W </li></ul> </div> <br />
+<h2 class="content_title"> Device Power Report </h2>
+<table class="emphasis2 side_by_side_left">
+<tr class="emph1"> <th class="emph_title"> Auslastung </th> <th class="emph_title"> Device Name </th> <th class="emph_title"> PW Estimate </th> </tr>
+<tr class="emph1"> <td >  32,6% </td> <td > DRAM </td> <td >   1.13 W    </td> </tr>
+<tr class="emph1"> <td >  32,6% </td> <td > CPU misc </td> <td >   1.10 W    </td> </tr>
+<tr class="emph1"> <td >  32,6% </td> <td > CPU core </td> <td >   848 mW    </td> </tr>
+<tr class="emph1"> <td >  10,2% </td> <td > Display backlight </td> <td >     0 mW    </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > Funk-Gerät:thinkpad_acpi </td> <td >     0 mW    </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > USB-Gerät: xHCI Host Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > USB-Gerät: EMV Smartcard Reader (Generic) </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > Funk-Gerät:iwlwifi </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wireless 7265 </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode] </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #6 </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP LPC Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP SMBus Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Broadwell-U Host Bridge -OPI </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #3 </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP Thermal Management Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation HD Graphics 5500 </td> <td >             </td> </tr>
+<tr class="emph1"> <td > 100,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP USB xHCI Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   5,0 pkts/s </td> <td > Netzwerkschnittstelle: wlp3s0 (iwlwifi) </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > PCI-Gerät: Intel Corporation Ethernet Connection (3) I218-LM </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP High Definition Audio Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP MEI Controller #1 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0 pkts/s </td> <td > nic:docker0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0 pkts/s </td> <td > Netzwerkschnittstelle: enp0s25 (e1000e) </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > Thinkpad light </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > Audiocodec hwC0D0: Intel </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > Audiocodec hwC1D0: Realtek </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > USB-Gerät: usb-device-8087-8001 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > USB-Gerät: Integrated Camera (J8AF5S044) </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > USB-Gerät: EHCI Host Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > USB-Gerät: xHCI Host Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-bootsplash.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > PCI-Gerät: Intel Corporation Wildcat Point-LP USB EHCI Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > PCI-Gerät: Intel Corporation Broadwell-U Audio Controller </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-microcode </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-iTCO_wdt.0.auto </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C14:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-reg-dummy </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-rtsx_pci_sdmmc.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C0D:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C09:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C0A:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-thinkpad_hwmon </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-ACPI0003:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PCCT </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-INT340F:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-alarmtimer </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-LEN0068:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-regulatory.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-5): DPDDC-A </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C14:01 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-serial8250 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C04:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-vesa-framebuffer.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0103:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C0E:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0800:00 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-thinkpad_acpi </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-coretemp.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-dock.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-7): DPDDC-C </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-i8042 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-rtsx_pci_ms.0 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-PNP0C14:02 </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-pcspkr </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > runtime-intel-spi </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-3): i915 gmbus dpb </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-1): i915 gmbus vga </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-6): DPDDC-B </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Device (0-002c): rmi4_smbus </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-4): i915 gmbus dpd </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-2): i915 gmbus dpc </td> <td >             </td> </tr>
+<tr class="emph1"> <td >   0,0% </td> <td > I2C Adapter (i2c-0): SMBus I801 adapter at efa0 </td> <td >             </td> </tr>
+</table>
+<h2 class="content_title"> Process Device Activity </h2>
+<table class="emphasis2">
+<tr class="emph1"> <th class="emph_title"> Process </th> <th class="emph_title"> Device </th> </tr>
+<tr class="emph1"> <td > systemd </td> <td > /dev/autofs </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/kmsg </td> </tr>
+<tr class="emph1"> <td > systemd-journal </td> <td > /dev/kmsg </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/kmsg </td> </tr>
+<tr class="emph1"> <td > systemd-logind </td> <td > /dev/input/event0 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event1 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event2 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event3 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event5 </td> </tr>
+<tr class="emph1"> <td > wpa_supplicant </td> <td > /dev/rfkill </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/rfkill </td> </tr>
+<tr class="emph1"> <td > Xorg </td> <td > /dev/dri/card0 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event1 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event12 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event13 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event14 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event15 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event2 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event3 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/input/event5 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/vga_arbiter </td> </tr>
+<tr class="emph1"> <td > xfce4-session </td> <td > /dev/dri/renderD128 </td> </tr>
+<tr class="emph1"> <td > gvfsd-fuse </td> <td > /dev/fuse </td> </tr>
+<tr class="emph1"> <td > xfwm4 </td> <td > /dev/dri/renderD128 </td> </tr>
+<tr class="emph1"> <td > pulseaudio </td> <td > /dev/snd/controlC0 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/snd/controlC1 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/snd/controlC1 </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/snd/controlC1 </td> </tr>
+<tr class="emph1"> <td > xdg-document-po </td> <td > /dev/fuse </td> </tr>
+<tr class="emph1"> <td > upowerd </td> <td > /dev/input/event0 </td> </tr>
+<tr class="emph1"> <td > libinput-debug- </td> <td > /dev/input/event14 </td> </tr>
+<tr class="emph1"> <td > pipewire </td> <td > /dev/v4l-touch0 </td> </tr>
+<tr class="emph1"> <td > qpdfview </td> <td > /dev/dri/renderD128 </td> </tr>
+<tr class="emph1"> <td > electron </td> <td > /dev/dri/renderD128 </td> </tr>
+<tr class="emph1"> <td > java </td> <td > /dev/random </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/random </td> </tr>
+<tr class="emph1"> <td >  </td> <td > /dev/random </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="ahci">
+<h2 class="content_title"> AHCI ALPM Residency Statistics - Not supported on this macine </h2>
+</div>
+<div class="clear_block" id="tuning">
+<h2 class="content_title"> Software Settings in Need of Tuning </h2>
+<table class="emphasis2">
+<tr class="tune"> <th class="emph_title"> Beschreibung </th> <th class="emph_title"> Script </th> </tr>
+<tr class="tune"> <td > Enable SATA link power management for host0 </td> <td > echo 'min_power' > '/sys/class/scsi_host/host0/link_power_management_policy'; </td> </tr>
+<tr class="tune"> <td > Enable SATA link power management for host1 </td> <td > echo 'min_power' > '/sys/class/scsi_host/host1/link_power_management_policy'; </td> </tr>
+<tr class="tune"> <td > Enable SATA link power management for host2 </td> <td > echo 'min_power' > '/sys/class/scsi_host/host2/link_power_management_policy'; </td> </tr>
+<tr class="tune"> <td > Zeitüberschreitung beim VM zurückschreiben </td> <td > echo '1500' > '/proc/sys/vm/dirty_writeback_centisecs'; </td> </tr>
+<tr class="tune"> <td > AutoSuspend für USB-Gerät EMV Smartcard Reader [Generic] </td> <td > echo 'auto' > '/sys/bus/usb/devices/2-5/power/control'; </td> </tr>
+<tr class="tune"> <td > Runtime PM for port ata2 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode] </td> <td > echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata2/power/control'; </td> </tr>
+<tr class="tune"> <td > Runtime PM for port ata3 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode] </td> <td > echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata3/power/control'; </td> </tr>
+<tr class="tune"> <td > Runtime PM for port ata1 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode] </td> <td > echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata1/power/control'; </td> </tr>
+</table>
+<h2 class="content_title"> Untunable Software Issues </h2>
+<table class="emphasis2">
+<tr class="tune"> <th class="emph_title"> Beschreibung </th> </tr>
+<tr class="tune"> <td > Runtime PM for disk sda </td> </tr>
+<tr class="tune"> <td > I2C Adapter i2c-6 has no runtime power management </td> </tr>
+<tr class="tune"> <td > I2C Device 0-002c has no runtime power management </td> </tr>
+<tr class="tune"> <td > I2C Adapter i2c-7 has no runtime power management </td> </tr>
+<tr class="tune"> <td > I2C Adapter i2c-5 has no runtime power management </td> </tr>
+</table>
+<h2 class="content_title"> Optimal Tuned Software Settings </h2>
+<table class="emphasis2">
+<tr class="tune"> <th class="emph_title"> Beschreibung </th> </tr>
+<tr class="tune"> <td > NMI watchdog sollte ausgeschaltet sein </td> </tr>
+<tr class="tune"> <td > Energieverwaltung für Audiocodec aktivieren </td> </tr>
+<tr class="tune"> <td > Runtime PM for I2C Adapter i2c-0 (SMBus I801 adapter at efa0) </td> </tr>
+<tr class="tune"> <td > Runtime PM for I2C Adapter i2c-1 (i915 gmbus vga) </td> </tr>
+<tr class="tune"> <td > AutoSuspend für unbekanntes USB-Gerät 1-1 (8087:8001) </td> </tr>
+<tr class="tune"> <td > AutoSuspend für USB-Gerät Integrated Camera [J8AF5S044] </td> </tr>
+<tr class="tune"> <td > AutoSuspend für USB-Gerät EHCI Host Controller [usb1] </td> </tr>
+<tr class="tune"> <td > AutoSuspend für USB-Gerät xHCI Host Controller [usb2] </td> </tr>
+<tr class="tune"> <td > Runtime PM for I2C Adapter i2c-3 (i915 gmbus dpb) </td> </tr>
+<tr class="tune"> <td > Runtime PM for I2C Adapter i2c-4 (i915 gmbus dpd) </td> </tr>
+<tr class="tune"> <td > Runtime PM for I2C Adapter i2c-2 (i915 gmbus dpc) </td> </tr>
+<tr class="tune"> <td > AutoSuspend für USB-Gerät xHCI Host Controller [usb3] </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wireless 7265 </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #6 </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP LPC Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP MEI Controller #1 </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP High Definition Audio Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Ethernet Connection (3) I218-LM </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SMBus Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Host Bridge -OPI </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode] </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Audio Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP Thermal Management Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB EHCI Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation HD Graphics 5500 </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB xHCI Controller </td> </tr>
+<tr class="tune"> <td > Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #3 </td> </tr>
+</table>
+</div>
+<div class="clear_block" id="wakeup">
+<h2 class="content_title"> Wake status of the devices </h2>
+<table class="emphasis2">
+<tr class="tune"> <th class="emph_title"> Beschreibung </th> <th class="emph_title"> Script </th> </tr>
+<tr class="tune"> <td > Wake-On-LAN-Status für Gerät wlp3s0 </td> <td > echo 'enabled' > '/sys/class/net/wlp3s0/device/power/wakeup'; </td> </tr>
+<tr class="tune"> <td > Wake status for USB device usb3 </td> <td > echo 'enabled' > '/sys/bus/usb/devices/usb3/power/wakeup'; </td> </tr>
+<tr class="tune"> <td > Wake status for USB device usb1 </td> <td > echo 'enabled' > '/sys/bus/usb/devices/usb1/power/wakeup'; </td> </tr>
+<tr class="tune"> <td > Wake status for USB device 1-1 </td> <td > echo 'enabled' > '/sys/bus/usb/devices/1-1/power/wakeup'; </td> </tr>
+<tr class="tune"> <td > Wake status for USB device usb2 </td> <td > echo 'enabled' > '/sys/bus/usb/devices/usb2/power/wakeup'; </td> </tr>
+<tr class="tune"> <td > Wake status for USB device 2-5 </td> <td > echo 'enabled' > '/sys/bus/usb/devices/2-5/power/wakeup'; </td> </tr>
+</table>
+</body>
+</html>

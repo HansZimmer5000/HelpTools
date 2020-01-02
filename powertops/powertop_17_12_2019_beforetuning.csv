@@ -1,0 +1,503 @@
+____________________________________________________________________
+			P o w e r T O P
+
+____________________________________________________________________
+ *  *  *   System Information   *  *  *
+
+PowerTOP Version;v2.11 ran at Tue Dec 17 18:51:21 2019
+
+Kernel Version;Linux version 4.19.88-1-MANJARO
+System Name;LENOVO20CLS2LK00ThinkPad X250
+CPU Information;4 Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz
+OS Information;Manjaro Linux
+
+Target: 1 units/s;System:  211.7 wakeup/s;CPU:  2.1% usage;GPU: 0 ops/s;GFX: 14.8 wakeups/s;VFS: 0 ops/s;
+
+____________________________________________________________________
+ *  *  *   Top 10 Power Consumers   *  *  *
+
+Usage;Events/s;Category;Description;PW Estimate
+  0,0%; 45,2;Timer;tick_sched_timer;  177 mW  
+  0,3%; 14,9;Process;[PID 792] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libcpufreq.so 14 12582928 cpufreq CPU-Frequenzüberwach; 60.9 mW  
+  0,2%; 14,1;Process;[PID 746] xfwm4 ; 56.9 mW  
+  0,0%; 12,7;Process;[PID 986] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 49.9 mW  
+  0,0%; 10,8;Process;[PID 963] /usr/bin/dockerd -H fd:// ; 42.7 mW  
+  0,1%;  8,4;Process;[PID 953] /usr/bin/dockerd -H fd:// ; 33.7 mW  
+  0,0%;  6,1;Interrupt;[0] HI_SOFTIRQ; 23.8 mW  
+  0,0%;  5,4;Process;[PID 965] /usr/bin/dockerd -H fd:// ; 21.4 mW  
+  0,0%;  5,3;Process;[PID 1006] /usr/bin/dockerd -H fd:// ; 21.3 mW  
+  0,1%;  5,2;Process;[PID 991] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 21.2 mW  
+
+____________________________________________________________________
+ *  *  *   Processor Idle State Report   *  *  *
+
+Package;0
+C2 (pc2);  0,0%
+C3 (pc3);  0,0%
+C6 (pc6);  0,0%
+C7 (pc7);  0,0%
+C8 (pc8);  0,0%
+C9 (pc9);  0,0%
+C10 (pc10);  0,0%
+;
+;
+;
+
+;Core 0
+C3 (cc3);  0,0%
+C6 (cc6);  0,0%
+C7 (cc7); 95,5%
+;Core 1
+C3 (cc3);  0,0%
+C6 (cc6);  0,0%
+C7 (cc7); 95,4%
+;GPU 1868787570
+Powered On;100,0%
+RC6;  0,0%
+RC6p;  0,0%
+RC6pp;  0,0%
+
+CPU;0;CPU;1
+C0 aktiv;  0,2%;  0,2%;
+POLL;  0,0%;   0,0 ms;  0,0%;   0,0 ms
+C1;  0,7%;   1,2 ms;  1,1%;   2,0 ms
+;
+C3;  0,0%;   0,3 ms;  0,0%;   0,1 ms
+C6;  0,0%;   0,3 ms;  0,0%;   0,4 ms
+C7s;  0,0%;   0,6 ms;  0,1%;   1,1 ms
+C8;  0,1%;   0,8 ms;  0,1%;   1,3 ms
+C9;  1,3%;   2,2 ms;  0,4%;   2,3 ms
+;
+C10; 96,5%;  37,8 ms; 96,7%;  43,1 ms
+C1E;  0,6%;   0,7 ms;  1,1%;   1,1 ms
+CPU;2;CPU;3
+C0 aktiv;  0,3%;  0,3%;
+POLL;  0,0%;   0,0 ms;  0,0%;   0,0 ms
+C1;  0,8%;   1,3 ms;  0,8%;   1,0 ms
+;
+C3;  0,1%;   0,3 ms;  0,0%;   0,2 ms
+C6;  0,0%;   0,5 ms;  0,0%;   0,2 ms
+C7s;  0,2%;   0,6 ms;  0,1%;   0,5 ms
+C8;  0,8%;   1,3 ms;  0,3%;   0,6 ms
+C9;  3,6%;   2,2 ms;  1,3%;   1,1 ms
+;
+C10; 92,6%;  42,3 ms; 95,6%;  51,5 ms
+C1E;  1,0%;   1,1 ms;  0,9%;   0,8 ms
+;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+;;;;
+
+____________________________________________________________________
+ *  *  *   Processor Frequency Report   *  *  *
+
+Package;0
+Idle;
+1400 MHz;
+1200 MHz;
+1,91 GHz;
+ 900 MHz;
+ 800 MHz;
+1100 MHz;
+ 700 MHz;
+ 600 MHz;
+1000 MHz;
+1300 MHz;
+2,10 GHz;
+;
+;
+;
+
+;Core 0
+Idle;
+1400 MHz;
+1200 MHz;
+1,91 GHz;
+ 900 MHz;
+ 800 MHz;
+ 700 MHz;
+ 600 MHz;
+1000 MHz;
+1300 MHz;
+1100 MHz;
+;Core 1
+Idle;
+1400 MHz;
+1200 MHz;
+1,91 GHz;
+ 800 MHz;
+1100 MHz;
+ 900 MHz;
+ 700 MHz;
+ 600 MHz;
+1000 MHz;
+1300 MHz;
+2,10 GHz;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+
+CPU 0;CPU 1
+Average;   827 MHz;   818 MHz
+Idle;
+1400 MHz;
+1,91 GHz;
+1200 MHz;
+ 900 MHz;
+ 800 MHz;
+ 700 MHz;
+ 600 MHz;
+1000 MHz;
+1300 MHz;
+1100 MHz;
+CPU 2;CPU 3
+Average;   829 MHz;   815 MHz
+Idle;
+1400 MHz;
+1200 MHz;
+1,91 GHz;
+ 800 MHz;
+ 900 MHz;
+ 700 MHz;
+ 600 MHz;
+1000 MHz;
+1300 MHz;
+1100 MHz;
+2,10 GHz;
+;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+
+____________________________________________________________________
+ *  *  *   Overview of Software Power Consumers   *  *  *
+
+Usage;Wakeups/s;GPU ops/s;Disk IO/s;GFX Wakeups/s;Category;Description;PW Estimate
+492,0 us/s; 45,2;;;;Timer;tick_sched_timer;  177 mW  
+  2,9 ms/s; 14,9;;;  6,9;Process;[PID 792] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libcpufreq.so 14 12582928 cpufreq CPU-Frequenzüberwach; 60.9 mW  
+  2,0 ms/s; 14,1;;;  6,6;Process;[PID 746] xfwm4 ; 56.9 mW  
+446,3 us/s; 12,7;;;;Process;[PID 986] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 49.9 mW  
+399,3 us/s; 10,8;;;;Process;[PID 963] /usr/bin/dockerd -H fd:// ; 42.7 mW  
+  0,8 ms/s;  8,4;;;;Process;[PID 953] /usr/bin/dockerd -H fd:// ; 33.7 mW  
+ 51,7 us/s;  6,1;;;;Interrupt;[0] HI_SOFTIRQ; 23.8 mW  
+138,6 us/s;  5,4;;;;Process;[PID 965] /usr/bin/dockerd -H fd:// ; 21.4 mW  
+477,1 us/s;  5,3;;;;Process;[PID 1006] /usr/bin/dockerd -H fd:// ; 21.3 mW  
+  0,9 ms/s;  5,2;;;;Process;[PID 991] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 21.2 mW  
+  1,1 ms/s;  5,0;;;;Process;[PID 782] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libpulseaudio-plugin.so 1 12582925 pulseaudio PulseAudi; 20.5 mW  
+ 89,9 us/s;  5,0;;;;Process;[PID 10] [rcu_preempt]; 19.6 mW  
+411,1 us/s;  4,5;;;;Process;[PID 1001] /usr/bin/dockerd -H fd:// ; 17.9 mW  
+546,2 us/s;  4,3;;;;Process;[PID 1775] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 17.5 mW  
+281,3 us/s;  4,3;;;;Process;[PID 442] [irq/49-iwlwifi]; 17.2 mW  
+108,6 us/s;  4,0;;;;Process;[PID 987] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 15.7 mW  
+431,8 us/s;  3,6;;;;Process;[PID 988] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 14.5 mW  
+558,8 us/s;  3,4;;;;Process;[PID 997] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 14.0 mW  
+ 87,3 us/s;  3,4;;;;Process;[PID 984] /usr/bin/dockerd -H fd:// ; 13.3 mW  
+  3,2 ms/s;  2,3;;;;Process;[PID 650] /usr/lib/Xorg :0 -seat seat0 -auth /run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch ; 12.3 mW  
+ 78,0 us/s;  2,9;;;;Process;[PID 993] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 11.6 mW  
+151,8 us/s;  2,6;;;;Interrupt;[48] i915; 10.3 mW  
+ 39,4 us/s;  2,6;;;;kWork;gc_worker; 10.2 mW  
+  1,0 ms/s;  2,2;;;;Interrupt;[7] sched(softirq); 9.73 mW  
+ 49,5 us/s;  2,4;;;;Process;[PID 992] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 9.40 mW  
+222,4 us/s;  2,3;;;;Process;[PID 964] /usr/bin/dockerd -H fd:// ; 9.18 mW  
+ 50,1 us/s;  2,1;;;;Process;[PID 406] [i915/signal:0]; 8.43 mW  
+615,5 us/s;  1,6;;;;Process;[PID 5830] powertop --html=powertop_17_12_2019.html --csv=powertop_17_12_2019.csv ; 7.04 mW  
+120,9 us/s;  1,6;;;  0,8;Process;[PID 774] /usr/bin/redshift -v ; 6.36 mW  
+260,3 us/s;  1,4;;;;Process;[PID 998] containerd --config /var/run/docker/containerd/containerd.toml --log-level info ; 5.72 mW  
+191,7 us/s;  1,3;;;;Process;[PID 832] msm_notifier ; 5.45 mW  
+ 12,7 us/s;  1,3;;;;kWork;intel_atomic_cleanup_work; 5.08 mW  
+  3,0 us/s;  1,3;;;;kWork;intel_atomic_helper_free_state_; 5.07 mW  
+  0,0 us/s;  1,1;;;;kWork;intel_atomic_commit_work; 4.29 mW  
+ 10,1 us/s;  1,0;;;;Timer;watchdog_timer_fn; 3.91 mW  
+  4,2 us/s;  1,0;;;;Timer;sched_rt_period_timer; 3.90 mW  
+ 33,3 us/s;  0,9;;;;Process;[PID 969] /usr/lib/gvfs-afc-volume-monitor ; 3.73 mW  
+143,4 us/s;  0,9;;;;kWork;iwl_fw_timestamp_marker_wk; 3.65 mW  
+ 75,2 us/s;  0,8;;;  0,4;Process;[PID 831] nm-applet ; 3.19 mW  
+226,0 us/s;  0,7;;;;Process;[PID 378] /usr/bin/NetworkManager --no-daemon ; 2.95 mW  
+ 76,2 us/s;  0,7;;;;Process;[PID 36] [rcuc/3]; 2.80 mW  
+218,3 us/s;  0,5;;;;kWork;e1000_watchdog_task; 2.17 mW  
+ 12,4 us/s;  0,5;;;;kWork;vmstat_shepherd; 2.16 mW  
+148,8 us/s;  0,5;;;;Process;[PID 1549] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ; 2.10 mW  
+ 81,8 us/s;  0,5;;;;Process;[PID 1510] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ; 2.03 mW  
+ 18,6 us/s;  0,5;;;;kWork;i915_gem_retire_work_handler; 1.97 mW  
+  9,3 us/s;  0,5;;;;kWork;i915_hangcheck_elapsed; 1.96 mW  
+  8,5 us/s;  0,5;;;;kWork;i915_gem_idle_work_handler; 1.96 mW  
+  3,2 us/s;  0,5;;;;Interrupt;[3] net_rx(softirq); 1.95 mW  
+ 42,9 us/s;  0,4;;;;Process;[PID 13] [rcuc/0]; 1.60 mW  
+ 95,6 us/s;  0,3;;;;Process;[PID 1433] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ; 1.46 mW  
+ 82,8 us/s;  0,3;;;;Process;[PID 1442] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ; 1.45 mW  
+ 45,9 us/s;  0,3;;;;Process;[PID 5761] /opt/sublime_text/sublime_text /home/hanszimmer/Schreibtisch/energyconsumption.sh ; 1.41 mW  
+ 86,1 us/s; 0,30;;;;Process;[PID 1429] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ; 1.26 mW  
+ 23,1 us/s; 0,30;;;;Process;[PID 29] [rcuc/2]; 1.19 mW  
+ 16,2 us/s; 0,30;;;;Interrupt;[44] ahci[0000:00:1f.2]; 1.19 mW  
+  2,5 us/s; 0,30;;;;kWork;blk_mq_requeue_work; 1.17 mW  
+ 47,5 us/s; 0,25;;;;Process;[PID 778] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libwhiskermenu.so 8 12582923 whiskermenu Whisker-Menü ; 1.02 mW  
+ 27,0 us/s; 0,25;;;;Process;[PID 193] [jbd2/sda1-8]; 1.00 mW  
+ 20,7 us/s; 0,25;;;;Process;[PID 744] /usr/bin/gpg-agent --supervised ;  995 uW  
+ 16,2 us/s; 0,25;;;;Process;[PID 641] /usr/lib/accounts-daemon ;  990 uW  
+195,6 us/s; 0,20;;;  0,0;Process;[PID 781] xfdesktop ;  975 uW  
+ 71,0 us/s; 0,20;;;;Process;[PID 1513] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  850 uW  
+ 38,4 us/s; 0,20;;;;Process;[PID 37] [ksoftirqd/3];  818 uW  
+  2,4 us/s; 0,20;;;;kWork;iwl_pcie_rx_allocator_work;  782 uW  
+  1,2 us/s; 0,20;;;;Timer;it_real_fn;  780 uW  
+478,2 us/s; 0,05;;;;Timer;hrtimer_wakeup;  673 uW  
+ 53,7 us/s; 0,15;;;;Process;[PID 852] nm-applet ;  638 uW  
+ 41,9 us/s; 0,15;;;  0,0;Process;[PID 5790] /usr/bin/xfce4-terminal ;  626 uW  
+ 24,3 us/s; 0,15;;;;Process;[PID 1455] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  609 uW  
+ 11,7 us/s; 0,15;;;;Process;[PID 787] /usr/lib/xfce4/panel/wrapper-2.0 /usr/lib/xfce4/panel/plugins/libweather.so 9 12582927 weather Wetterbericht Aktuelle;  596 uW  
+ 71,6 us/s; 0,10;;;;kWork;delayed_fput;  461 uW  
+  9,8 us/s; 0,10;;;;Process;[PID 653] /usr/bin/wpa_supplicant -u ;  399 uW  
+  9,5 us/s; 0,10;;;;Process;[PID 769] /usr/lib/rtkit-daemon ;  399 uW  
+  7,2 us/s; 0,10;;;;kWork;__i915_gem_free_work;  397 uW  
+  5,2 us/s; 0,10;;;;Process;[PID 22] [rcuc/1];  395 uW  
+  4,6 us/s; 0,10;;;;Process;[PID 5778] /opt/sublime_text/plugin_host 5761 --auto-shell-env ;  394 uW  
+  0,4 us/s; 0,10;;;;kWork;neigh_periodic_work;  390 uW  
+  0,4 us/s; 0,10;;;;kWork;blk_mq_timeout_work;  390 uW  
+179,3 us/s; 0,05;;;;Interrupt;[1] timer(softirq);  374 uW  
+286,0 us/s;;;;;Process;[PID 691] /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only ;  286 uW  
+ 15,7 us/s; 0,05;;;;Process;[PID 30] [ksoftirqd/2];  211 uW  
+  5,5 us/s; 0,05;;;;Process;[PID 1431] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  200 uW  
+  5,3 us/s; 0,05;;;;Process;[PID 1430] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  200 uW  
+  4,8 us/s; 0,05;;;;Process;[PID 1426] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  200 uW  
+  4,8 us/s; 0,05;;;;Process;[PID 1428] /home/hanszimmer/.dropbox-dist/dropbox-lnx.x86_64-86.4.146/dropbox /newerversion ;  200 uW  
+  1,2 us/s; 0,05;;;;kWork;blk_mq_run_work_fn;  196 uW  
+  0,4 us/s; 0,05;;;;kWork;iwl_mvm_tcm_work;  195 uW  
+ 98,6 us/s;;;;;Process;[PID 3636] [kworker/u16:0];    0 mW  
+ 97,0 us/s;;;;;Interrupt;[9] RCU(softirq);    0 mW  
+ 87,5 us/s;;;;;Process;[PID 175] [kworker/u16:4];    0 mW  
+ 75,5 us/s;;;;;Timer;delayed_work_timer_fn;    0 mW  
+ 65,2 us/s;;;;;Process;[PID 377] /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only ;    0 mW  
+ 57,5 us/s;;;;;Process;[PID 3752] [kworker/2:2];    0 mW  
+ 39,8 us/s;;;;;Process;[PID 3568] [kworker/3:1];    0 mW  
+ 39,3 us/s;;;;;Timer;process_timeout;    0 mW  
+ 30,1 us/s;;;;;Process;[PID 9] [ksoftirqd/0];    0 mW  
+ 30,0 us/s;;;;;Process;[PID 3824] [kworker/1:0];    0 mW  
+ 20,6 us/s;;;;;Process;[PID 3759] [kworker/0:0];    0 mW  
+ 13,0 us/s;;;;;Timer;clocksource_watchdog;    0 mW  
+
+
+The system baseline power is estimated at:  1.89  W;
+____________________________________________________________________
+ *  *  *   Device Power Report   *  *  *
+
+Usage;Device Name;PW Estimate
+  2,2%;DRAM;  1.04 W   
+  2,2%;CPU misc;  805 mW   
+  2,2%;CPU core; 42.7 mW   
+ 29,9%;Display backlight;    0 mW   
+100,0%;PCI-Gerät: Intel Corporation Wireless 7265;           
+100,0%;Funk-Gerät:iwlwifi;           
+100,0%;USB-Gerät: EMV Smartcard Reader (Generic);           
+100,0%;USB-Gerät: xHCI Host Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP USB xHCI Controller;           
+100,0%;PCI-Gerät: Intel Corporation HD Graphics 5500;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP Thermal Management Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP USB EHCI Controller;           
+100,0%;PCI-Gerät: Intel Corporation Broadwell-U Audio Controller;           
+100,0%;PCI-Gerät: Intel Corporation Broadwell-U Host Bridge -OPI;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP MEI Controller #1;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #6;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP LPC Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP High Definition Audio Controller;           
+100,0%;PCI-Gerät: Intel Corporation Ethernet Connection (3) I218-LM;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP SMBus Controller;           
+100,0%;PCI-Gerät: Intel Corporation Wildcat Point-LP PCI Express Root Port #3;           
+100,0%;PCI-Gerät: Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader;           
+100,0%;Audiocodec hwC1D0: Realtek;           
+  2,5 pkts/s;Netzwerkschnittstelle: wlp3s0 (iwlwifi);           
+  0,0%;USB-Gerät: usb-device-8087-8001;           
+  0,0%;runtime-iTCO_wdt.0.auto;           
+  0,0 pkts/s;nic:docker0;           
+  0,0 pkts/s;Netzwerkschnittstelle: enp0s25 (e1000e);           
+  0,0 pkts/s;nic:br-464d7d7ef32a;           
+  0,0%;Thinkpad light;           
+  0,0%;Funk-Gerät:thinkpad_acpi;           
+  0,0%;Audiocodec hwC0D0: Intel;           
+  0,0%;USB-Gerät: Integrated Camera (J8AF5S044);           
+  0,0%;USB-Gerät: EHCI Host Controller;           
+  0,0%;USB-Gerät: xHCI Host Controller;           
+  0,0%;runtime-PNP0C14:01;           
+  0,0%;runtime-reg-dummy;           
+  0,0%;runtime-rtsx_pci_sdmmc.0;           
+  0,0%;runtime-PNP0C0D:00;           
+  0,0%;runtime-PNP0C09:00;           
+  0,0%;runtime-PNP0C0A:00;           
+  0,0%;runtime-thinkpad_hwmon;           
+  0,0%;runtime-ACPI0003:00;           
+  0,0%;runtime-PCCT;           
+  0,0%;runtime-INT340F:00;           
+  0,0%;runtime-bootsplash.0;           
+  0,0%;runtime-microcode;           
+  0,0%;runtime-LEN0068:00;           
+  0,0%;runtime-vesa-framebuffer.0;           
+  0,0%;runtime-PNP0C0E:00;           
+  0,0%;runtime-i8042;           
+  0,0%;runtime-serial8250;           
+  0,0%;runtime-PNP0C04:00;           
+  0,0%;runtime-PNP0103:00;           
+  0,0%;I2C Adapter (i2c-7): DPDDC-C;           
+  0,0%;runtime-PNP0800:00;           
+  0,0%;runtime-regulatory.0;           
+  0,0%;runtime-alarmtimer;           
+  0,0%;runtime-dock.0;           
+  0,0%;runtime-coretemp.0;           
+  0,0%;runtime-thinkpad_acpi;           
+  0,0%;runtime-PNP0C14:00;           
+  0,0%;runtime-rtsx_pci_ms.0;           
+  0,0%;runtime-PNP0C14:02;           
+  0,0%;I2C Adapter (i2c-0): SMBus I801 adapter at efa0;           
+  0,0%;I2C Adapter (i2c-2): i915 gmbus dpc;           
+  0,0%;I2C Adapter (i2c-4): i915 gmbus dpd;           
+  0,0%;I2C Device (0-002c): rmi4_smbus;           
+  0,0%;I2C Adapter (i2c-6): DPDDC-B;           
+  0,0%;I2C Adapter (i2c-5): DPDDC-A;           
+  0,0%;I2C Adapter (i2c-1): i915 gmbus vga;           
+  0,0%;I2C Adapter (i2c-3): i915 gmbus dpb;           
+  0,0%;runtime-intel-spi;           
+  0,0%;runtime-pcspkr;           
+____________________________________________________________________
+ *  *  *   Process Device Activity   *  *  *
+
+Process;Device
+systemd;/dev/autofs
+;/dev/kmsg
+systemd-journal;/dev/kmsg
+;/dev/kmsg
+systemd-logind;/dev/input/event0
+;/dev/input/event1
+;/dev/input/event2
+;/dev/input/event3
+;/dev/input/event5
+bluetoothd;/dev/rfkill
+Xorg;/dev/dri/card0
+;/dev/input/event1
+;/dev/input/event11
+;/dev/input/event12
+;/dev/input/event13
+;/dev/input/event14
+;/dev/input/event2
+;/dev/input/event3
+;/dev/input/event5
+;/dev/vga_arbiter
+wpa_supplicant;/dev/rfkill
+;/dev/rfkill
+xfce4-session;/dev/dri/renderD128
+gvfsd-fuse;/dev/fuse
+xfwm4;/dev/dri/renderD128
+pulseaudio;/dev/snd/controlC0
+;/dev/snd/controlC1
+;/dev/snd/controlC1
+blueman-applet;/dev/rfkill
+upowerd;/dev/input/event0
+libinput-debug-;/dev/input/event13
+xdg-document-po;/dev/fuse
+
+____________________________________________________________________
+ *  *  *   AHCI ALPM Residency Statistics - Not supported on this macine   *  *  *
+
+____________________________________________________________________
+ *  *  *   Software Settings in Need of Tuning   *  *  *
+
+Description;Script
+Enable SATA link power management for host0;echo 'min_power' > '/sys/class/scsi_host/host0/link_power_management_policy';
+Enable SATA link power management for host1;echo 'min_power' > '/sys/class/scsi_host/host1/link_power_management_policy';
+Energieverwaltung für Audiocodec aktivieren;echo '1' > '/sys/module/snd_hda_intel/parameters/power_save';
+Enable SATA link power management for host2;echo 'min_power' > '/sys/class/scsi_host/host2/link_power_management_policy';
+Runtime PM for I2C Adapter i2c-0 (SMBus I801 adapter at efa0);echo 'auto' > '/sys/bus/i2c/devices/i2c-0/device/power/control';
+Runtime PM for I2C Adapter i2c-2 (i915 gmbus dpc);echo 'auto' > '/sys/bus/i2c/devices/i2c-2/device/power/control';
+Runtime PM for I2C Adapter i2c-4 (i915 gmbus dpd);echo 'auto' > '/sys/bus/i2c/devices/i2c-4/device/power/control';
+Runtime PM for I2C Adapter i2c-1 (i915 gmbus vga);echo 'auto' > '/sys/bus/i2c/devices/i2c-1/device/power/control';
+Runtime PM for I2C Adapter i2c-3 (i915 gmbus dpb);echo 'auto' > '/sys/bus/i2c/devices/i2c-3/device/power/control';
+AutoSuspend für USB-Gerät EMV Smartcard Reader [Generic];echo 'auto' > '/sys/bus/usb/devices/2-5/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wireless 7265;echo 'auto' > '/sys/bus/pci/devices/0000:03:00.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/power/control';
+Runtime PM for port ata1 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata1/power/control';
+Runtime PM for port ata2 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata2/power/control';
+Runtime PM for port ata3 of PCI device: Intel Corporation Wildcat Point-LP SATA Controller [AHCI Mode];echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.2/ata3/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader;echo 'auto' > '/sys/bus/pci/devices/0000:02:00.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP MEI Controller #1;echo 'auto' > '/sys/bus/pci/devices/0000:00:16.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB xHCI Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:14.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation HD Graphics 5500;echo 'auto' > '/sys/bus/pci/devices/0000:00:02.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP Thermal Management Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.6/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Audio Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:03.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Broadwell-U Host Bridge -OPI;echo 'auto' > '/sys/bus/pci/devices/0000:00:00.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP SMBus Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.3/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Ethernet Connection (3) I218-LM;echo 'auto' > '/sys/bus/pci/devices/0000:00:19.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP LPC Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:1f.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP High Definition Audio Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:1b.0/power/control';
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP USB EHCI Controller;echo 'auto' > '/sys/bus/pci/devices/0000:00:1d.0/power/control';
+____________________________________________________________________
+ *  *  *   Untunable Software Issues   *  *  *
+
+Description
+Runtime PM for disk sda
+I2C Adapter i2c-6 has no runtime power management
+I2C Device 0-002c has no runtime power management
+I2C Adapter i2c-7 has no runtime power management
+I2C Adapter i2c-5 has no runtime power management
+____________________________________________________________________
+ *  *  *   Optimal Tuned Software Settings   *  *  *
+
+Description
+Zeitüberschreitung beim VM zurückschreiben
+NMI watchdog sollte ausgeschaltet sein
+AutoSuspend für USB-Gerät xHCI Host Controller [usb2]
+AutoSuspend für unbekanntes USB-Gerät 1-1 (8087:8001)
+AutoSuspend für USB-Gerät Integrated Camera [J8AF5S044]
+AutoSuspend für USB-Gerät EHCI Host Controller [usb1]
+AutoSuspend für USB-Gerät xHCI Host Controller [usb3]
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #6
+Laufzeit-Energieverwaltung für PCI-Gerät Intel Corporation Wildcat Point-LP PCI Express Root Port #3
+
+____________________________________________________________________
+ *  *  *   Wake status of the devices   *  *  *
+
+Description;Script
+Wake-On-LAN-Status für Gerät wlp3s0;echo 'enabled' > '/sys/class/net/wlp3s0/device/power/wakeup';
+Wake status for USB device usb3;echo 'enabled' > '/sys/bus/usb/devices/usb3/power/wakeup';
+Wake status for USB device usb1;echo 'enabled' > '/sys/bus/usb/devices/usb1/power/wakeup';
+Wake status for USB device 1-1;echo 'enabled' > '/sys/bus/usb/devices/1-1/power/wakeup';
+Wake status for USB device usb2;echo 'enabled' > '/sys/bus/usb/devices/usb2/power/wakeup';
+Wake status for USB device 2-5;echo 'enabled' > '/sys/bus/usb/devices/2-5/power/wakeup';
