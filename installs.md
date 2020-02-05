@@ -2,7 +2,7 @@
 
 currently Desktop Environment: 
 - KDE Plasma
-- Most is also possible fro XFCE
+- Most is also possible for XFCE
 
 ## Kernelman
 Check Kernel!
