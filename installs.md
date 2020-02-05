@@ -30,7 +30,8 @@ sudo pacman -S powertop
 sudo pacman -S redshift plasma5-applets-redshift-control
 sudo pacman -S pacaur
 sudo pacman -S docker
-sudo pacman -S rhythmbox
+sudo pacman -S rhythmbox (Used in Xfce)
+sudo pacman -S elisa (Used in KDE Plasma)
 
 flatpak install sign/etc/systemd/system/multi-user.target.wants/docker.service
 al
