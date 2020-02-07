@@ -4,7 +4,10 @@ currently Desktop Environment:
 - KDE Plasma
 - Most is also possible for XFCE
 
-## Kernelman
+## SSH
+chmod 600 id_rsa # Where ever neccessary, since storage on other drives may have changed rights.
+
+## Kernel
 Check Kernel!
 Currently: 5.4.15-2
 
