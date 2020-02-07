@@ -1,4 +1,4 @@
-# File for Installing new Linux on Laptop
+ # File for Installing new Linux on Laptop
 
 currently Desktop Environment: 
 - KDE Plasma
@@ -14,6 +14,7 @@ Currently: 5.4.15-2
 ## Shortcuts
 Window Managing by Shortcuts:
 KDE: Global Shortcuts -> KWin -> Quick Tile
+XFCE: Windows Manager -> Keyboard
 
 ## Update and set Mirrors
 git clone or download: https://github.com/HansZimmer5000/HelpTools.git and then ./updatePkgs.sh
@@ -27,7 +28,7 @@ WPA(2) // PEAP
 ## Install
 sudo pacman -S git 
 sudo pacman -S tlp linux54-tp_smapi linux54-acpi_call
-sudo pacman -S playonlinux (with this time I try openbsd-netcat 
+sudo pacman -S playonlinux (with this time I try openbsd-netcat)
 sudo pacman -S code
 sudo pacman -S powertop
 sudo pacman -S redshift plasma5-applets-redshift-control
@@ -35,11 +36,16 @@ sudo pacman -S pacaur
 sudo pacman -S docker
 sudo pacman -S rhythmbox (Used in Xfce)
 sudo pacman -S elisa (Used in KDE Plasma)
+sudo pacman -S texlive-core biber texlive-latexextra texlive-bibtexextra
 
-flatpak install sign/etc/systemd/system/multi-user.target.wants/docker.service
-al
+flatpak install signal
 flatpak install dropbox
 flatpak install spotify
+
+Install AnyConnect via "sudo mkdir /etc/rc.d" und https://www.haw-hamburg.de/online-services/vpn/anyconnect-desktop.html 
+Zuletzt sudo /etc/rc.d/vpnagentd start
+"vpn" und "vpnui" script liegen dann unter /opt/cisco/anyconnect/bin/. 
+(von https://bbs.archlinux.org/viewtopic.php?id=190444)
 
 ## Uninstall
 
@@ -51,7 +57,7 @@ sudo powertop --auto-tune
 
 add redshift to autostart (via Autostart Setting in plasma gui)
 
-set default audio output
+set default audio output (on KDE this was not done)
 
 ### Docker with new subnet IP
 
