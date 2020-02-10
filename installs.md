@@ -32,6 +32,7 @@ Eduroam TODO
 # Essentials
 sudo pacman -S git 
 sudo pacman -S docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose # From https://docs.docker.com/compose/install/
 
 sudo pacman -S tlp linux54-tp_smapi linux54-acpi_call #Check used Kernel!
 sudo pacman -S powertop
@@ -82,6 +83,21 @@ setup VS-Code
     "workbench.colorCustomizations": {"[Red]": {"editor.background": "#3f3f3f"}}
 }
 ```
+
+Set up touchpad (Xface):
+- to recognize single touch as a click: Mouse and Touchpad -> Devices -> Touchpad -> General
+- to not change workspace when scrolling: Windows Manager Tweaks -> Workspaces
+- to change workspace with 3 finger gestures (like on MacOS):
+  - ```sudo pacman -S libinput (should be already installed)```
+  - ```pacaur -S libinput-gestures (maybe also with pacman)```
+  - ```sudo gpasswd -a $USER input```
+  - ```libinput-gestures-setup autostart && libinput-gestures-setup start```
+  - BEWARE TO ONlY SET CONFIG AT ```~/.config/libinput-gestures.conf```, otherwise my break lightdm if set in /usr/share/X11/
+  - Used Config at ```~/.config/libinput-gestures.conf```, requires ```libinput-gestures-setup restart```:
+    ```
+    gesture swipe left 3 xdotool key ctrl+shift+Left
+    gesture swipe right 3 xdotool key ctrl+shift+Right
+    ```
 
 ### Docker with new subnet IP
 
