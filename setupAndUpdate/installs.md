@@ -104,7 +104,7 @@ Set up touchpad (Xface):
 To use docker without the need to have ```sudo``` in front of it, add yourself to the docker group: ```sudo gpasswd -a *user* docker```. Maybe a quite big security risk.
 
 To let docker use a different bridge IP change 'docker.service' file.
-open File ```/etc/systemd/system/multi-user.target.wants/docker.service``` and set ```--bip``` Flag with new IP: ```ExecStart=/usr/bin/dockerd -H fd:// --bip "192.168.1.1/24"```
+open File ```/etc/systemd/system/multi-user.target.wants/docker.service``` and set ```--bip``` Flag with new IP: ```ExecStart=/usr/bin/dockerd -H fd:// --bip "192.149.1.1/24"```
 (from [StackOverflow](https://stackoverflow.com/questions/52225493/change-default-docker0-bridge-ip-address))
 
 
