@@ -27,7 +27,7 @@ fi
 if [ "$new_config" != "" ]; then 
 	echo "Beware! This will replace the /etc/default/tlp file"
 	read -p "Setting $new_config, continue?"	
-	sudo cp -f ./$new_config /etc/default/tlp
+	sudo cp -f ./$new_config /etc/tlp.conf
 
 	echo "Restarting tlp.service"
 	sudo systemctl restart tlp.service
