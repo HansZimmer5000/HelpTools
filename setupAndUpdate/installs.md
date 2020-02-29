@@ -1,4 +1,4 @@
- # Help for new Manjaro Installation
+# Help for new Manjaro Installation
 
 Used Desktop Environments: 
 - KDE Plasma
@@ -36,7 +36,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-
 
 sudo pacman -S tlp linux54-tp_smapi linux54-acpi_call #Check used Kernel!
 sudo pacman -S powertop
-sudo pacman -S redshift plasma5-applets-redshift-control
+sudo pacman -S redshift 
 
 sudo pacman -S code
 flatpak install signal
