@@ -48,12 +48,15 @@ sudo pacman -S pacaur
 sudo pacman -S texlive-core biber texlive-latexextra texlive-bibtexextra
 sudo pacman -S playonlinux #Choose one netcat, did not have any problems with openbsd version yet.
 
-# My preferred Music Players
+# My preferred Media Applications
+sudo pacman -S geeqie #For watching Raw Images
 sudo pacman -S rhythmbox #Used in Xfce
 sudo pacman -S elisa #Used in KDE Plasma
 ```
 Install AnyConnect via ```sudo mkdir /etc/rc.d``` and [HAW VPN](https://www.haw-hamburg.de/online-services/vpn/anyconnect-desktop.html), then execute ```sudo /etc/rc.d/vpnagentd start```. ```vpn``` and ```vpnui``` commands are now in ```/opt/cisco/anyconnect/bin/```. 
 (from [Archlinux.org](https://bbs.archlinux.org/viewtopic.php?id=190444) )
+If ```vpnui``` script needs the missing ```libpangox``` library, use `vpn` only, connect to 
+`connect.haw-hamburg.de` and login with the HAW login credentials.
 
 ## Uninstall
 
@@ -103,13 +106,8 @@ Set up touchpad (Xface):
 
 To use docker without the need to have ```sudo``` in front of it, add yourself to the docker group: ```sudo gpasswd -a *user* docker```. Maybe a quite big security risk.
 
-<<<<<<< HEAD
 To let docker use a different bridge IP change 'docker.service' file. This may necessary if you want to use the Deutsche Bahn ICE Wifi, which has the same address as the standard bridge IP, but also consider other wifis and their address ranges. 
 open File ```/etc/systemd/system/multi-user.target.wants/docker.service``` and set ```--bip``` Flag with new IP: ```ExecStart=/usr/bin/dockerd -H fd:// --bip "192.149.1.1/24"```
-=======
-To let docker use a different bridge IP change 'docker.service' file.
-open File ```/etc/systemd/system/multi-user.target.wants/docker.service``` and set ```--bip``` Flag with new IP: ```ExecStart=/usr/bin/dockerd -H fd:// --bip "192.168.1.1/24"```
->>>>>>> parent of 996185c... change bip due to interference with wifi
 (from [StackOverflow](https://stackoverflow.com/questions/52225493/change-default-docker0-bridge-ip-address))
 
 
