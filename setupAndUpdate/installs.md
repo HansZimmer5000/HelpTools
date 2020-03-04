@@ -50,6 +50,7 @@ sudo pacman -S playonlinux #Choose one netcat, did not have any problems with op
 
 # My preferred Media Applications
 sudo pacman -S geeqie #For watching Raw Images
+sudo pacman -S calibre #For handling EBooks with my Kindle
 sudo pacman -S rhythmbox #Used in Xfce
 sudo pacman -S elisa #Used in KDE Plasma
 ```
