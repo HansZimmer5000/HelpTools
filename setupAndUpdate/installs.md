@@ -47,6 +47,7 @@ flatpak install spotify
 sudo pacman -S pacaur
 sudo pacman -S texlive-core biber texlive-latexextra texlive-bibtexextra
 sudo pacman -S playonlinux #Choose one netcat, did not have any problems with openbsd version yet.
+sudo pacman -S virtualbox # Open Kvantum manager, Configure Active Theme, Miscellaneous tab, disable Respect current DE (was not possible for me), Compositing and general look tab, Add "VirtualBoxVM" to Opaque apps list
 
 # My preferred Media Applications
 sudo pacman -S geeqie #For watching Raw Images
