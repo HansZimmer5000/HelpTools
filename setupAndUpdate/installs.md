@@ -104,6 +104,11 @@ Set up touchpad (Xface):
     gesture swipe right 3 xdotool key ctrl+shift+Right
     ```
 
+Setup keyboard on Ubuntu (VMs):
+```sh
+sudo dpkg-reconfigure keyboard-configuration
+```
+
 ### Docker with new subnet IP
 
 To use docker without the need to have ```sudo``` in front of it, add yourself to the docker group: ```sudo gpasswd -a *user* docker```. Maybe a quite big security risk.
