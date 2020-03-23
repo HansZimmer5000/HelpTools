@@ -48,6 +48,7 @@ sudo pacman -S pacaur
 sudo pacman -S texlive-core biber texlive-latexextra texlive-bibtexextra
 sudo pacman -S playonlinux #Choose one netcat, did not have any problems with openbsd version yet.
 sudo pacman -S virtualbox # Open Kvantum manager, Configure Active Theme, Miscellaneous tab, disable Respect current DE (was not possible for me), Compositing and general look tab, Add "VirtualBoxVM" to Opaque apps list
+sudo pacman -S discord
 
 # My preferred Media Applications
 sudo pacman -S geeqie #For watching Raw Images
@@ -58,7 +59,7 @@ sudo pacman -S elisa #Used in KDE Plasma
 Install AnyConnect via ```sudo mkdir /etc/rc.d``` and [HAW VPN](https://www.haw-hamburg.de/online-services/vpn/anyconnect-desktop.html), then execute ```sudo /etc/rc.d/vpnagentd start```. ```vpn``` and ```vpnui``` commands are now in ```/opt/cisco/anyconnect/bin/```. 
 (from [Archlinux.org](https://bbs.archlinux.org/viewtopic.php?id=190444) )
 If ```vpnui``` script needs the missing ```libpangox``` library, use `vpn` only, connect to 
-`connect.haw-hamburg.de` and login with the HAW login credentials.
+`vpn.haw-hamburg.de` and login with the HAW login credentials.
 
 ## Uninstall
 

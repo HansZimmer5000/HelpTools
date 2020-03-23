@@ -1,7 +1,7 @@
 # !/bin/sh
 
 VPN_CMD="sudo openconnect"
-HAW_VPN_URL="connect.haw-hamburg.de"
+HAW_VPN_URL="vpn.haw-hamburg.de"
 
 usage(){
     echo "
