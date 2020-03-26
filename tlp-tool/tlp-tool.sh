@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e #Exit on error
 
 print_help(){
 	echo "This tool sets a specific tlp config and then restart the tlp.service"

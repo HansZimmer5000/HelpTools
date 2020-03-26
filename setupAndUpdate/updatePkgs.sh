@@ -1,3 +1,6 @@
+#!/bin/sh
+set -e #Exit on error
+
 echo "--"
 echo "--"
 echo "Updating Pacman!"
