@@ -12,7 +12,17 @@ usage: vpn
 }
 
 case $1 in
-	-c | --connect )	$VPN_CMD --protocol=anyconnect $HAW_VPN_URL
-                    ;;
-	* )               usage
+	-c | --connect )	
+        $VPN_CMD --protocol=anyconnect $HAW_VPN_URL
+        ;;
+	* ) 
+        usage
 esac
+
+# Legacy code with anyconnect
+#PATH_VPNAGENTD="/etc/rc.d"
+#PATH_VPN="/opt/cisco/anyconnect/bin"
+
+#sudo $PATH_VPNAGENTD/vpnagentd start
+#sudo $PATH_VPN/vpnui connect $HAW_VPN_URL
+#sudo $PATH_VPN/vpnui
