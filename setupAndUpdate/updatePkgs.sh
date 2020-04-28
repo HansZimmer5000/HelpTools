@@ -24,6 +24,14 @@ sudo paccache -r
 
 echo "--"
 echo "--"
+echo "Listing orphan package!"
+echo "--"
+echo "--"
+# -q for package names without version
+sudo pacman -Qtd
+
+echo "--"
+echo "--"
 echo "Updating Flatpak!"
 echo "--"
 echo "--"
