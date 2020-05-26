@@ -40,6 +40,12 @@ get_memory_usage() {
 	echo $available_in_percent
 }
 
+get_cpu_usage(){
+	cpu_usage=($(cat /proc/loadavg)) 
+
+	echo ${cpu_usage[1]} #(one, five, fiveteen min average)
+}
+
 #BAT0/power_now = 0 [mW]
 #BAT1/power_now = 0 [mW]
 get_energy_consumption() {
@@ -70,33 +76,16 @@ get_energy_charge() {
 }
 
 print_exhausts() {
-	date=$(get_date)
-	temp=$(get_temp)
-	speed=$(get_fan_speed)
-
-	# TODO get used memory in Percent
-	memory=$(get_memory)
-
-	consumption=$(get_energy_consumption)
-	charge=$(get_energy_charge)
-
-	echo $date
-	echo $temp
-	echo $speed
-	echo $consumption
-	echo $charge
+	get_date
+	get_temp
+	get_fan_speed
+	get_memory_usage
+	get_cpu_usage
+	get_energy_consumption
+	get_energy_charge
 }
 
-export -f print_exhausts get_date get_temp get_memory_usage get_fan_speed get_energy_consumption get_energy_charge
+export -f print_exhausts get_date get_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge
 
-#watch -n 1 "print_exhausts"
+watch -n 1 "print_exhausts"
 
-get_date
-get_temp
-get_fan_speed
-get_memory_usage
-get_energy_consumption
-get_energy_charge
-
-#cat /proc/loadavg
-#cat /proc/stat
