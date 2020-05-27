@@ -52,7 +52,7 @@ get_memory_usage() {
 get_cpu_usage(){
 	cpu_usage=($(cat /proc/loadavg)) 
 
-	output="CPU: ${cpu_usage[1]}%" #(one, five, fiveteen min average)
+	output="CPU: ${cpu_usage[1]}/4" #(one, five, fiveteen min average)
 	echo $output
 }
 
@@ -101,13 +101,15 @@ print_exhausts() {
 export -f print_exhausts get_date get_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge
 
 if [ "$1" == "-csv" ]; then
-	if [ -z "$2" ];
+	if [ -z "$2" ]; then
 		echo "Need CSV Filename"
 	else
 		# TODO only raw output to csv file
+		# Print Date
 		watch -n 1 "print_exhausts"
 	fi
 else 
+	# Do not print date as it is already shown in watch.
 	watch -n 1 "print_exhausts"
 fi
 
