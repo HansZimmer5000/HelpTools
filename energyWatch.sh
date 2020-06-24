@@ -43,7 +43,7 @@ get_memory_usage() {
 	memory_available=${memory_available//"kB"/""}
 	memory_available=${memory_available//" "/""}
 
-	available_in_percent=$(bc <<<"scale=1;$memory_available*100/$memory_total")
+	available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 
 	output="RAM: $available_in_percent%"
 	echo $output
@@ -52,7 +52,7 @@ get_memory_usage() {
 get_cpu_usage(){
 	cpu_usage=($(cat /proc/loadavg)) 
 
-	output="CPU: ${cpu_usage[1]}/4" #(one, five, fiveteen min average)
+	output="CPU: ${cpu_usage[0]}/4" #(one, five, fiveteen min average)
 	echo $output
 }
 
@@ -77,14 +77,45 @@ get_energy_consumption() {
 
 #Charge total = 73.6 [%]
 get_energy_charge() {
-	charge=$(sudo tlp-stat -b | grep "Charge total")
-	charge=${charge//"+++ "/""}
-	charge=${charge//"Charge total"/""}
-	charge=${charge//"="/""}
-	charge=${charge//"[%]"/""}
-	charge=${charge//" "/""}
+	charge_percent=$(sudo tlp-stat -b | grep "Charge total")
+	charge_percent=${charge_percent//"+++ "/""}
+	charge_percent=${charge_percent//"Charge total"/""}
+	charge_percent=${charge_percent//"="/""}
+	charge_percent=${charge_percent//"[%]"/""}
+	charge_percent=${charge_percent//" "/""}
 
-	output="Charge Left: $charge%"
+	charge=$(sudo tlp-stat -b | grep "energy_now")
+	charge_arr=($charge)
+	# Go through all batteries in the system (Thinkpads X250 e.g. has two)
+	mWh_total=0
+	mWh_total=$(($mWh_total+${charge_arr[2]}))
+	mWh_total=$(($mWh_total+${charge_arr[6]}))
+    #while IFS= read -r line; do
+		#arr=("$line")
+		#mWh_total=$((mWh_total+${arr[2]})) 
+    #done < <(echo "$charge") #<-- Does not work with "watch" command.
+
+	# Refactor code from get consumption
+	consumption_=$(sudo tlp-stat -b | grep "power_now")
+	consumption_=${consumption_//"/sys/class/power_supply/"/}
+	consumption_=${consumption_//"/power_now"/}
+	consumption_=${consumption_//"BAT0"/""}
+	consumption_=${consumption_//"BAT1"/""}
+	consumption_=${consumption_//"="/""}
+	consumption_=${consumption_//"[mW]"/""}
+	consumption_=${consumption_//" "/""}
+
+	bat0_and_1_=($(echo "$consumption_"))
+	consumption_total_=${bat0_and_1_[0]}
+	consumption_total_=$((consumption_total_+${bat0_and_1_[1]}))
+	
+	hours_left=$((mWh_total/consumption_total_))
+
+	hours_left_tmp=$(awk "BEGIN {print $mWh_total/$consumption_total_}")
+	#minutes_left=$(python -c "print(int(($hours_left_tmp-$hours_left)*60))")
+	minutes_left=$(echo | awk "{printf(\"%d\n\", ($hours_left_tmp-$hours_left)*60 )}" )
+
+	output="Charge Left: $charge_percent% ($hours_left h $minutes_left m left)"
 	echo $output
 }
 
