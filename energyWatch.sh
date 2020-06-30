@@ -109,6 +109,11 @@ get_energy_charge() {
 	consumption_total_=${bat0_and_1_[0]}
 	consumption_total_=$((consumption_total_+${bat0_and_1_[1]}))
 	
+	if [ "$consumption_total_" -le 0 ]; then
+		# Laptopt is most certainly on A/C.
+		consumption_total_=1
+	fi	
+
 	hours_left=$((mWh_total/consumption_total_))
 
 	hours_left_tmp=$(awk "BEGIN {print $mWh_total/$consumption_total_}")
