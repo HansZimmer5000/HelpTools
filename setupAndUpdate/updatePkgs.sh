@@ -38,6 +38,6 @@ echo "--"
 flatpak update
 
 
-sudo pacman-mirrors -c Germany
+sudo pacman-mirrors -c Netherlands # or Germany, Greece, ...
 
 
