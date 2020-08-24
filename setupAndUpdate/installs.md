@@ -90,9 +90,25 @@ setup VS-Code
     "editor.wordWrap": "on",
     "editor.fontSize": 18,
     "latex-workshop.view.pdf.viewer": "tab",
-    "terminal.integrated.fontSize": 16,
     "workbench.colorTheme": "Red",
-    "workbench.colorCustomizations": {"[Red]": {"editor.background": "#3f3f3f"}}
+    "workbench.colorCustomizations": {
+        "[Red]": {
+            "editor.background": "#3f3f3f"
+        }
+    },
+    "markdown.preview.breaks": true,
+    "explorer.confirmDragAndDrop": false,
+    "window.zoomLevel": 1,
+    "markdown.preview.fontSize": 12,
+    "git.suggestSmartCommit": false,
+    "git.confirmSync": false,
+    "files.exclude": {
+        "**/.git": false
+    },
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "remote.SSH.path": "ssh",
+    "java.semanticHighlighting.enabled": true,
+    "java.configuration.checkProjectSettingsExclusions": false,
 }
 ```
 
