@@ -32,5 +32,19 @@ libinput-gestures-setup start
 cd $ORG_DIR
 ```
 
-[Docker](Same link as in Manjaro):
+[Docker]() Same link as in Manjaro:
 Change /lib/systemd/system/docker.service but with the same edits as in Manjaro Installs.
+
+[Flatpak](flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo):
+```shell
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+[VirtualBox](https://www.if-not-true-then-false.com/2010/install-virtualbox-with-yum-on-fedora-centos-red-hat-rhel/):
+```shell
+su -
+cd /etc/yum.repos.d/
+wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
+dnf update
+dnf install VirtualBox
+```
