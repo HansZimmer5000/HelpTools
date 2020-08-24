@@ -104,7 +104,7 @@ Set up touchpad (Xfce):
   - `pacaur -S libinput-gestures (maybe also with pacman)`
   - `sudo gpasswd -a $USER input`
   - `libinput-gestures-setup autostart && libinput-gestures-setup start`
-  - BEWARE TO ONlY SET CONFIG AT `~/.config/libinput-gestures.conf`, otherwise my break lightdm if set in /usr/share/X11/
+  - BEWARE TO ONlY CREATE AND SET CUSTOM CONFIG AT `~/.config/libinput-gestures.conf`, otherwise my break lightdm if set in /usr/share/X11/
   - Used Config at `~/.config/libinput-gestures.conf`, requires `libinput-gestures-setup restart`:
     ```
     gesture swipe left 3 xdotool key ctrl+shift+Left
