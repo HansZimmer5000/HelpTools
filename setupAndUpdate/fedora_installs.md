@@ -48,3 +48,6 @@ wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
 dnf update
 dnf install VirtualBox
 ```
+
+[Bluetooth](https://askubuntu.com/a/155886):
+set AutoEnable=true zu false machen.
