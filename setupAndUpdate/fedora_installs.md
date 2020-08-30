@@ -51,3 +51,11 @@ dnf install VirtualBox
 
 [Bluetooth](https://askubuntu.com/a/155886):
 set AutoEnable=true zu false machen.
+
+[Wine](https://www.fosslinux.com/39908/how-to-install-wine-on-fedora-workstation.htm)
+- dnf config-manager --add-repo https://dl.winehq.org/wine-builds/fedora/32/winehq.repo 
+- sudo dnf install winehq-stable
+
+[Firefox Encodings](https://rpmfusion.org/Configuration):
+- sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+- sudo dnf install ffmpeg ffmpeg-libs
