@@ -28,6 +28,7 @@ clean_dnf(){
     echo "--"
     echo "Cleaning up DNF!"
     sudo dnf autoremove -y
+    sudo dnf clean all
 }
 
 clean_pacman(){
