@@ -36,6 +36,7 @@ cd $ORG_DIR
 Change /lib/systemd/system/docker.service but with the same edits as in Manjaro Installs.
 - sudo dnf install grubby
 - sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+- or use podman / podman-compose
 
 [Flatpak](flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo):
 ```shell
