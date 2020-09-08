@@ -62,3 +62,15 @@ set AutoEnable=true zu false machen.
 [Firefox Encodings](https://rpmfusion.org/Configuration):
 - sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 - sudo dnf install ffmpeg ffmpeg-libs
+
+[Snapcraft](https://snapcraft.io/install/snap-store/fedora#install)
+- sudo dnf install snapd
+
+[Gradle](https://tecadmin.net/install-gradle-fedora/)
+- sudo dnf install java-1.8.0-openjdk
+- sudo dnf install unzip wget
+- wget https://downloads.gradle-dn.com/distributions/gradle-6.3-bin.zip
+- unzip gradle-6.3-bin.zip
+- mv gradle-6.3 /usr/local/gradle
+- vim /etc/profile.d/gradle.sh #add: export PATH=/usr/local/gradle/bin:$PATH
+- source /etc/profile.d/gradle.sh # Only needed for "old" current terminal
