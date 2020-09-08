@@ -61,5 +61,7 @@ elif [[ "$(lsb_release -a )" == *"Fedora"* ]]; then
     update_dnf
     update_flatpak
     clean_dnf
+    # TODO update and clean up snapcraft
+    # TODO clean up flatpak not possible?
 fi
 
