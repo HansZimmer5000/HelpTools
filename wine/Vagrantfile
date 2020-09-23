@@ -1,0 +1,9 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "datacastle/windows7"
+    config.vm.box_version = "1.0"
+    config.vm.synced_folder "src/", "/srv/website"
+    
+    config.vm.provider "virtualbox" do |v|
+        v.gui = true
+    end
+end
