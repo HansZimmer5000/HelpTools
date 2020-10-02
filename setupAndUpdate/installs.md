@@ -67,6 +67,10 @@ Install AnyConnect via ```sudo mkdir /etc/rc.d``` and [HAW VPN](https://www.haw-
 If ```vpnui``` script needs the missing ```libpangox``` library, use `vpn` only, connect to 
 `vpn.haw-hamburg.de` and login with the HAW login credentials.
 
+### Code Watch Limit
+
+If there is a error message that says the workspace is too large, increase inotify watches like here: [Tutorial](https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc)
+
 ## Uninstall
 
 ```shell
