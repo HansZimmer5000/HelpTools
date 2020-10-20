@@ -136,6 +136,12 @@ Setup keyboard on Ubuntu (VMs):
 sudo dpkg-reconfigure keyboard-configuration
 ```
 
+Set git alias:
+```
+git config --global alias.unstage 'reset HEAD--'
+git config --global alias.last 'log -1 HEAD'
+```
+
 ### Docker with new subnet IP
 
 To use docker without the need to have `sudo` in front of it, add yourself to the docker group: `sudo gpasswd -a *user* docker`. Maybe a quite big security risk.
