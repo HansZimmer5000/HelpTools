@@ -1,10 +1,37 @@
 #!/bin/bash
 
 
-podman run -it --rm \
-    -v ~/Schreibtisch/office2016/Iso:/office2016:z \
-    "test"
-    bash
+set_x_variables(){
+    export XSOCK=/tmp/.X11-unix
+    #export XAUTH=/tmp/.docker.xauth
+    #xauth nlist :0 | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+    #export XAUTH
+}
+
+#podman run -ti -e DISPLAY --rm -v 
+# --net=host localhost/xclockimage
+#        -e XAUTHORITY=$XAUTH \
+#        -v $XAUTH:$XAUTH \
+start_x_container(){
+    set_x_variables
+    podman run \
+        --rm \
+        -it \
+        -e DISPLAY \
+        -v $XSOCK:$XSOCK \
+        --net=host \
+        -v /run/user/1000/gdm/Xauthority:/root/.Xauthority:Z \
+        docker.io/library/archlinux:20200908
+}
+
+#pacman -Syyu 
+#pacman -S xterm wine
+
+
+
+
+set_x_variables
+start_x_container 
 
 #podman run -it -d --rm \
 #    archlinux:20200908
