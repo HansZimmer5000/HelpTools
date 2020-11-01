@@ -19,16 +19,16 @@ start_x_container(){
         -it \
         -e DISPLAY \
         -v $XSOCK:$XSOCK \
+        -v /home/hape/repositories/sharedToWinVm:/shared \
         --net=host \
         -v /run/user/1000/gdm/Xauthority:/root/.Xauthority:Z \
-        docker.io/library/archlinux:20200908
+        wine-arch:test #docker.io/library/archlinux:20200908
 }
 
 #pacman -Syyu 
-#pacman -S xterm wine
-
-
-
+#pacman -S vim
+#https://wiki.archlinux.org/index.php/Official_repositories#multilib
+#pacman -S wine
 
 set_x_variables
 start_x_container 
