@@ -6,16 +6,27 @@ get_date() {
 }
 
 #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
-get_temp() {
+get_cpu_temp() {
 	temp=$(sudo tlp-stat -t | grep "C]")
 	temp=${temp//"/proc/acpi/ibm/thermal = "/""}
-	temp=${temp//" 0 0 0 0 0 0 0 [°C]"/""}
+	temp=${temp//" 0 0 0 0 0 0 0"/""}
+	temp=${temp//"[°C]"/""}
 
 	if [ "$1" == "-r" ]; then
 		output="$temp"
 	else
-		output="Temp: $temp°C"
+		output="CPU Temp: $temp°C"
 	fi
+	echo $output
+}
+
+get_gpu_temp(){
+	temp="$(nvidia-settings -q ThermalSensorReading | grep Attribute)"
+	temp=${temp: -4}
+	temp=$(echo $temp | sed 's/ //g')
+	temp=$(echo $temp | sed 's/\.//g')
+	output=$(echo $temp | sed 's/://g')
+	output="GPU Temp: $output°C"
 	echo $output
 }
 
@@ -126,7 +137,8 @@ get_energy_charge() {
 
 print_exhausts() {
 	get_date
-	get_temp
+	get_cpu_temp
+	get_gpu_temp
 	get_fan_speed
 	get_memory_usage
 	get_cpu_usage
@@ -134,7 +146,7 @@ print_exhausts() {
 	get_energy_charge
 }
 
-export -f print_exhausts get_date get_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge
+export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge
 
 if [ "$1" == "-csv" ]; then
 	if [ -z "$2" ]; then
