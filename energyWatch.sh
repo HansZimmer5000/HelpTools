@@ -2,7 +2,7 @@
 
 #2020-05-26-19-52-08
 get_date() {
-	echo $(date +%F-%H-%M-%S)
+	date +%F-%H-%M-%S
 }
 
 #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
@@ -17,17 +17,17 @@ get_cpu_temp() {
 	else
 		output="CPU Temp: $temp°C"
 	fi
-	echo $output
+	echo "$output"
 }
 
 get_gpu_temp(){
 	temp="$(nvidia-settings -q ThermalSensorReading | grep Attribute)"
 	temp=${temp: -4}
-	temp=$(echo $temp | sed 's/ //g')
-	temp=$(echo $temp | sed 's/\.//g')
-	output=$(echo $temp | sed 's/://g')
+	temp=${temp// /}
+	temp=${temp//./}
+	output=${temp//:/}
 	output="GPU Temp: $output°C"
-	echo $output
+	echo "$output"
 }
 
 #Fan speed = 4137 [/min]
@@ -39,12 +39,12 @@ get_fan_speed() {
 	speed=${speed//"[/min]"/""}
 	speed=${speed//" "/""}
 	output="Fan: $speed/min"
-	echo $output
+	echo "$output"
 }
 
 get_memory_usage() {
-	memory_total=$(cat /proc/meminfo | grep "MemTotal")
-	memory_available=$(cat /proc/meminfo | grep "MemAvailable")
+	memory_total=$(grep "MemTotal" /proc/meminfo)
+	memory_available=$(grep "MemAvailable" /proc/meminfo)
 
 	memory_total=${memory_total//"MemTotal:"/""}
 	memory_total=${memory_total//"kB"/""}
@@ -57,14 +57,14 @@ get_memory_usage() {
 	available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 
 	output="RAM: $available_in_percent%"
-	echo $output
+	echo "$output"
 }
 
 get_cpu_usage(){
 	cpu_usage=($(cat /proc/loadavg)) 
 
 	output="CPU: ${cpu_usage[0]}/4" #(one, five, fiveteen min average)
-	echo $output
+	echo "$output"
 }
 
 #BAT0/power_now = 0 [mW]
@@ -79,11 +79,11 @@ get_energy_consumption() {
 	consumption=${consumption//"[mW]"/""}
 	consumption=${consumption//" "/""}
 
-	bat0_and_1=($(echo "$consumption"))
+	bat0_and_1=($consumption)
 	#bat0=${bat0_and_1[0]} Internal X250 Battery
  	#bat1=${bat0_and_1[1]} External X250 Battery
 	output="Consumption: Bat0(${bat0_and_1[0]}) Bat1(${bat0_and_1[1]}) mW"
-	echo $output
+	echo "$output"
 }
 
 #Charge total = 73.6 [%]
@@ -104,9 +104,9 @@ get_energy_charge() {
 	charge_arr=($charge)
 	# Go through all batteries in the system (Thinkpads X250 e.g. has two)
 	mWh_total=0
-	mWh_total=$(($mWh_total+${charge_arr[2]}))
+	mWh_total=$((mWh_total+charge_arr[2]))
 	if ! [ -z "${charge_arr[6]}" ]; then
-		mWh_total=$(($mWh_total+${charge_arr[6]}))
+		mWh_total=$((mWh_total+charge_arr[6]))
 	fi
     #while IFS= read -r line; do
 		#arr=("$line")
@@ -123,10 +123,10 @@ get_energy_charge() {
 	consumption_=${consumption_//"[mW]"/""}
 	consumption_=${consumption_//" "/""}
 
-	bat0_and_1_=($(echo "$consumption_"))
+	bat0_and_1_=($consumption_)
 	consumption_total_=${bat0_and_1_[0]}
 	if ! [ -z "${bat0_and_1_[1]}" ]; then
-		consumption_total_=$(($consumption_total_+${bat0_and_1_[1]}))
+		consumption_total_=$((consumption_total_+bat0_and_1_[1]))
 	fi
 	
 	if [ "$consumption_total_" -le 0 ]; then
@@ -141,7 +141,7 @@ get_energy_charge() {
 	minutes_left=$(echo | awk "{printf(\"%d\n\", ($hours_left_tmp-$hours_left)*60 )}" )
 
 	output="Charge Left: $charge_percent% ($hours_left h $minutes_left m left)"
-	echo $output
+	echo "$output"
 }
 
 print_exhausts() {
