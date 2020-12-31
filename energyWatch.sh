@@ -88,9 +88,14 @@ get_energy_consumption() {
 
 #Charge total = 73.6 [%]
 get_energy_charge() {
-	charge_percent=$(sudo tlp-stat -b | grep "Charge total")
+	grep_word="Charge total"
+	charge_percent=$(sudo tlp-stat -b | grep "$grep_word")
+	if [ -z "$charge_percent" ]; then
+		grep_word="Charge  "
+		charge_percent=$(sudo tlp-stat -b | grep "$grep_word")
+	fi
 	charge_percent=${charge_percent//"+++ "/""}
-	charge_percent=${charge_percent//"Charge total"/""}
+	charge_percent=${charge_percent//"$grep_word"/""}
 	charge_percent=${charge_percent//"="/""}
 	charge_percent=${charge_percent//"[%]"/""}
 	charge_percent=${charge_percent//" "/""}
@@ -100,7 +105,9 @@ get_energy_charge() {
 	# Go through all batteries in the system (Thinkpads X250 e.g. has two)
 	mWh_total=0
 	mWh_total=$(($mWh_total+${charge_arr[2]}))
-	mWh_total=$(($mWh_total+${charge_arr[6]}))
+	if ! [ -z "${charge_arr[6]}" ]; then
+		mWh_total=$(($mWh_total+${charge_arr[6]}))
+	fi
     #while IFS= read -r line; do
 		#arr=("$line")
 		#mWh_total=$((mWh_total+${arr[2]})) 
@@ -118,7 +125,9 @@ get_energy_charge() {
 
 	bat0_and_1_=($(echo "$consumption_"))
 	consumption_total_=${bat0_and_1_[0]}
-	consumption_total_=$((consumption_total_+${bat0_and_1_[1]}))
+	if ! [ -z "${bat0_and_1_[1]}" ]; then
+		consumption_total_=$(($consumption_total_+${bat0_and_1_[1]}))
+	fi
 	
 	if [ "$consumption_total_" -le 0 ]; then
 		# Laptopt is most certainly on A/C.
