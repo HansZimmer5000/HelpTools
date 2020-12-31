@@ -22,8 +22,21 @@ update_dnf(){
     sudo dnf update 
 }
 
-clean_dnf(){
+update_flatpak(){
+    echo "--"
+    echo "--"
+    echo "Updating Flatpak!"
+    flatpak update
+}
 
+update_apt(){
+    echo "--"
+    echo "--"
+    echo "Updating Apt!"
+    sudo apt update ; sudo apt upgrade
+}
+
+clean_dnf(){
     echo "--"
     echo "--"
     echo "Cleaning up DNF!"
@@ -38,11 +51,11 @@ clean_pacman(){
     sudo paccache -r
 }
 
-update_flatpak(){
+clean_apt(){
     echo "--"
     echo "--"
-    echo "Updating Flatpak!"
-    flatpak update
+    echo "Cleaning up Pacman Cache!"
+    sudo apt autoremove
 }
 
 if [[ "$(lsb_release -a )" == *"Manjaro"* ]]; then
@@ -63,5 +76,8 @@ elif [[ "$(lsb_release -a )" == *"Fedora"* ]]; then
     clean_dnf
     # TODO update and clean up snapcraft
     # TODO clean up flatpak not possible?
+elif [[ "$(lsb_release -a )" == *"Raspbian"* ]]; then
+    update_apt
+    clean_apt
 fi
 
