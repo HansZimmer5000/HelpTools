@@ -33,7 +33,8 @@ update_apt(){
     echo "--"
     echo "--"
     echo "Updating Apt!"
-    sudo apt update ; sudo apt upgrade
+    sudo apt update
+    sudo apt upgrade
 }
 
 clean_dnf(){
