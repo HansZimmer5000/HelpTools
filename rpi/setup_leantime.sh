@@ -22,24 +22,6 @@ After=networking.service
 
 [Service]
 ExecStart=/usr/bin/bash -c '\
-    /usr/bin/docker rm -f leantime;\
-    /usr/bin/docker rm -f mysql_leantime;\
-    /usr/bin/docker-compose -f /home/hape/docker-compose.yml up -d db;\
-    sleep 30s ;\
-    rm -f /home/hape/dump.sql ;\
-    /usr/bin/docker-compose -f /home/hape/docker-compose.yml up -d web;\
-    exit 0'
-
-
-[Install]
-WantedBy=multi-user.target"
-
-    service="[Unit]
-Description=Start Leantime
-After=networking.service
-
-[Service]
-ExecStart=/usr/bin/bash -c '\
     /usr/bin/docker rm -f leantime ;\
     /usr/bin/docker rm -f mysql ;\
     sleep 5s ;\
@@ -76,6 +58,10 @@ WantedBy=multi-user.target
     rm tmp
 }
 
+set_backup_service(){
+    : #Setup Systemd servcie that dumps the leantime database every hour (up to three parallel saves, if the fourth would come the oldest of the three will be overwritten)
+}
+
 non_sudo_user=hape
 server_url=raspberrypinew
 read -rsp "Input Sudo Pw: " SUDO_PW
@@ -86,3 +72,4 @@ if [ "$1" = "dump" ]; then
     set_dump_sql
 fi
 set_leantime_service
+set_backup_service
