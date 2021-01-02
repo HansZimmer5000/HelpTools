@@ -3,7 +3,7 @@
 set_service_file(){
     echo "$2" > tmp
     ssh "$non_sudo_user"@"$server_url" "echo -n $SUDO_PW | sudo -S rm /etc/systemd/system/$1" 1>/dev/null 2>&1
-    scp tmp "$non_sudo_user"@"$server_url":/home/hape/$1 1>/dev/null 2>&1
+    scp tmp "$non_sudo_user"@"$server_url":/home/hape/"$1" 1>/dev/null 2>&1
     ssh "$non_sudo_user"@"$server_url" "echo -n $SUDO_PW | sudo -S mv /home/hape/$1 /etc/systemd/system/$1" 1>/dev/null 2>&1
 }
 
@@ -38,9 +38,9 @@ set_dump_sql(){
     dump_file_index=$((${#save_files[@]}-1))
     dump_file=${save_files[dump_file_index]}
 
-    read -p "This will delete the current db and import from dump.sql, is that what you want?"
+    read -rp "This will delete the current db and import from dump.sql, is that what you want?"
     ssh "$non_sudo_user"@"$server_url" "echo -n $SUDO_PW | sudo -S rm -fr /home/hape/dump.sql /home/hape/db_data/*"
-    scp ../../mathesis/tickets/saves/$dump_file "$non_sudo_user"@"$server_url":/home/hape/dump.sql 1>/dev/null 2>&1
+    scp ../../mathesis/tickets/saves/"$dump_file" "$non_sudo_user"@"$server_url":/home/hape/dump.sql 1>/dev/null 2>&1
 }
 
 set_leantime_service(){
