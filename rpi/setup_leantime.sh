@@ -20,13 +20,13 @@ set_service_cleanup(){
 
 # $1 = service name
 # $2 = service code
-set_service(){
+set_systemd_unit(){
     if [ -z "$1" ]; then
         echo "Param 1 not given!"
     elif [ -z "$2" ]; then
         echo "Param 2 not given!"
     else
-        echo "Setting Service: $1"
+        echo "Setting Unit: $1"
         set_service_file "$1" "$2"
         set_service_systemd "$1"
         set_service_cleanup
@@ -64,7 +64,7 @@ ExecStart=/usr/bin/bash -c '\
 [Install]
 WantedBy=multi-user.target
 "
-    set_service $service_name "$service"
+    set_systemd_unit $service_name "$service"
 }
 
 set_backup_service(){  
@@ -83,7 +83,7 @@ ExecStart=bash -c '\
 [Install]
 WantedBy=multi-user.target
 "
-    set_service $service_name "$service"
+    set_systemd_unit $service_name "$service"
 
     service_name=leantime-backup.timer
     service="[Unit]
@@ -97,7 +97,7 @@ OnCalendar=*:0/10
 [Install]
 WantedBy=timers.target
 "
-    set_service $service_name "$service"
+    set_systemd_unit $service_name "$service"
 }
 
 non_sudo_user=hape
