@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup Leantime every 10 minutes
+After=networking.service
+After=leantime.service
+
+[Timer]
+OnCalendar=*:0/10
+
+[Install]
+WantedBy=timers.target
