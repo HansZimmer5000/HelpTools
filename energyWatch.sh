@@ -62,8 +62,10 @@ get_memory_usage() {
 
 get_cpu_usage(){
 	cpu_usage=($(cat /proc/loadavg)) 
+	cpu_cores=$(cat /proc/cpuinfo | grep "cpu cores" | head -n 1  | awk '{print $4 }')
+	cpu_threads="?"
 
-	output="CPU: ${cpu_usage[0]}/4" #(one, five, fiveteen min average)
+	output="CPU: ${cpu_usage[0]}/$cpu_cores" #(one, five, fiveteen min average)
 	echo "$output"
 }
 
