@@ -3,6 +3,10 @@ Description=Start Leantime
 After=networking.service
 
 [Service]
+ExecStartPre=/usr/bin/bash -c '\
+    if [ ! -f /home/hape/dump.sql ]; then \
+        touch /home/hape/dump.sql; \
+    fi;'
 ExecStart=/usr/bin/bash -c '\
     /usr/bin/docker rm -f leantime; \
     /usr/bin/docker rm -f mysql; \
