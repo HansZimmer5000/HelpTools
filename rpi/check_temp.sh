@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# sysbench --test=cpu --cpu-max-prime=10000 --num-threads=4 run
+# vcgencmd measure_temp 
+# cat /proc/loadavg
+# watch $(( $(cat /sys/devices/virtual/thermal/thermal_zone0/temp) / 100))"°"
+
 read -srp "Enter Server User Password: "
 echo
 
