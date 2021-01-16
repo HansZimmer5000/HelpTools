@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# sysbench --test=cpu --cpu-max-prime=10000 --num-threads=4 run
-# vcgencmd measure_temp 
-# cat /proc/loadavg
-# watch $(( $(cat /sys/devices/virtual/thermal/thermal_zone0/temp) / 100))"°"
-
 set_service_file(){
     echo "$2" > tmp
     ssh "$non_sudo_user"@"$server_url" "echo -n $SUDO_PW | sudo -S rm /etc/systemd/system/$1" 1>/dev/null 2>&1
@@ -64,6 +59,12 @@ set_backup_service(){
     set_systemd_unit $service_name "$service"
 }
 
+set_log_res_service(){
+    service_name=log-resource.service
+    service="$(cat services/log-resource.service)"
+    set_systemd_unit $service_name "$service"
+}
+
 non_sudo_user=hape
 server_url=raspberrypinew
 read -rsp "Input Server User Password: " SUDO_PW
@@ -73,5 +74,6 @@ if [ "$1" = "dump" ]; then
     echo "Setting Dump"
     set_dump_sql
 fi
-set_leantime_service
-set_backup_service
+#set_leantime_service
+#set_backup_service
+set_log_res_service

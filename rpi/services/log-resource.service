@@ -1,0 +1,19 @@
+[Unit]
+Description=Log resource
+After=networking.service
+
+[Service]
+ExecStart=/usr/bin/bash -c '\
+    while true; do sleep 1s; \
+    temp="$(( $(cat /sys/devices/virtual/thermal/thermal_zone0/temp) / 1000))"; \
+    loadavg_raw=$(cat /proc/loadavg | sed "s/ /;/g" ); \
+    loadavg=($loadavg_raw); \
+    cpu_1=${loadavg[0]}; \
+    cpu_2=${loadavg[1]}; \
+    cpu_3=${loadavg[2]}; \
+    ts=$$(/usr/bin/date +%%F-%%H-%%M-%%S); \
+    echo "$ts;$temp;$loadavg_raw" >> /home/hape/res.log ;\
+    done'
+
+[Install]
+WantedBy=multi-user.target
