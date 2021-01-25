@@ -4,7 +4,7 @@ After=networking.service
 
 [Service]
 ExecStart=/usr/bin/bash -c '\
-    while true; do sleep 1s; \
+    while true; do sleep 5s; \
     temp="$(( $(cat /sys/devices/virtual/thermal/thermal_zone0/temp) / 1000))"; \
     loadavg_raw=$(cat /proc/loadavg | sed "s/ /;/g" ); \
     loadavg=($loadavg_raw); \
@@ -12,7 +12,8 @@ ExecStart=/usr/bin/bash -c '\
     cpu_2=${loadavg[1]}; \
     cpu_3=${loadavg[2]}; \
     ts=$$(/usr/bin/date +%%F-%%H-%%M-%%S); \
-    echo "$ts;$temp;$loadavg_raw" >> /home/hape/res.log ;\
+    date=$$(/usr/bin/date +%%F); \
+    echo "$ts;$temp;$loadavg_raw" >> /home/hape/res_$date.log ;\
     done'
 
 [Install]
