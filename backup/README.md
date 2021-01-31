@@ -7,5 +7,5 @@ Currently, I have two external 1 TB HDDs, both are synced by hand which of cours
 Also, the tool might provide a form of compression and update of compressed files, so I need less space on the hard drives. This OK as the backups are very really used.
 
 ## Possible Tools:
-- `rsync`
+- `rsync -n -rv $src_drive $dest_drive`
 - 
