@@ -1,0 +1,13 @@
+[Unit]
+Description=Backup Leantime
+After=networking.service
+After=leantime.service
+
+[Service]
+ExecStart=bash -c '\
+    rm -rf /home/hape/backup2.sql; \
+    test -f /home/hape/backup.sql && mv /home/hape/backup.sql /home/hape/backup2.sql; \
+    /usr/bin/docker exec -u root mysql mysqldump -u root --password=pass leantime 1> /home/hape/backup.sql'
+
+[Install]
+WantedBy=multi-user.target
