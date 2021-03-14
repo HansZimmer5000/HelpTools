@@ -25,13 +25,14 @@ load_symbols(){
             i=1
             ;;
         esac
-        text="$i
+        text="${default_text:-$i}
 $symbol"
         echo -e "\e[2A\e[K$text"
         sleep 0.12s
     done
 }
 
-if [ "$1" = "loop" ]; then
+if [ "$1" = "loop" ]; then  
+    default_text="$2"
     load_symbols
 fi
