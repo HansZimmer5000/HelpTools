@@ -1,8 +1,11 @@
 load_symbols(){
-    echo '-'
+    echo "Start Loading"
+    #TODO flexible set 'overwrite_lines=2' and adjust first echo
     i=1
+    echo "$i
+-"
     while true; do
-        # -\|/-\|/-
+        # -\|/
         symbol="-"
         case $i in
             1) 
@@ -22,8 +25,9 @@ load_symbols(){
             i=1
             ;;
         esac
-
-        echo -e "\e[1A\e[K$symbol"
+        text="$i
+$symbol"
+        echo -e "\e[2A\e[K$text"
         sleep 0.12s
     done
 }
