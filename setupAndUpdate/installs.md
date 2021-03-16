@@ -87,7 +87,7 @@ add redshift to autostart (via Autostart Setting in plasma gui)
 
 set default audio output (on KDE this was not done)
 
-setup VS-Code
+setup VS-Code User wide (~/.config/Code - OSS/User/.config/Code/User/settings.json)
 ```json
 {
     "explorer.confirmDelete": false,
