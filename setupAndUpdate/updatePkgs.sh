@@ -9,6 +9,7 @@ update_pacman(){
 }
 
 update_pacaur(){
+    # TODO if error comes like "libalpm.so.12: cannot open shared object file", do: git clone https://aur.archlinux.org/auracle-git.git; cd auracle-git; makepkg -si
     echo "--"
     echo "--"
     echo "Updating PacAur!"
