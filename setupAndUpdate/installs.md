@@ -149,5 +149,13 @@ To use docker without the need to have `sudo` in front of it, add yourself to th
 To let docker use a different bridge IP change 'docker.service' file. This may necessary if you want to use the Deutsche Bahn ICE Wifi, which has the same address as the standard bridge IP, but also consider other wifis and their address ranges. 
 open File `/etc/systemd/system/multi-user.target.wants/docker.service` and set `--bip` Flag with new IP: `ExecStart=/usr/bin/dockerd -H fd:// --bip "192.149.1.1/24"`
 (from [StackOverflow](https://stackoverflow.com/questions/52225493/change-default-docker0-bridge-ip-address))
-
+Or enter bip into /etc/docker/daemon.json like:
+```json
+{ 
+    ...
+    "bip": "192.168.1.5/24",
+    ...
+}
+```
+(from https://docs.docker.com/network/bridge/)
 
