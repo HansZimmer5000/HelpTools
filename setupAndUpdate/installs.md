@@ -25,6 +25,7 @@ Download: https://github.com/HansZimmer5000/HelpTools.git and then ```./updatePk
 ## WIFI
 MobyClick(S) WPA(2) // PEAP
 
+CUPS / Printer Stuff TODO
 Eduroam TODO
 
 ## Install (TODO: May have syntax errors)
