@@ -17,9 +17,11 @@ set_mode(){
     fi
 }
 
-set_mode eDP-1 1600x900
+#set_mode eDP-1 1600x900
 
 # TODO Setup 2nd Screen
+xrandr --verbose --output "eDP-1" --off
+xrandr --verbose --output "HDMI-1" --mode 2560x1080
 # xrandr --auto --output <theoutputname> --mode <theresolution> --right-of <otheroutputname>.
 # add '--primary' to make referenced output primary Screen
 # turn off laptop eDP-1 
