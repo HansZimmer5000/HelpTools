@@ -1,3 +1,5 @@
+#!/bin/bash
+# In use on Linux
 # User specific aliases and functions
 GRADLE_HOME=~/.gradle/
 
