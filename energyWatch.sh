@@ -1,16 +1,31 @@
 #!/bin/bash
 
-#2020-05-26-19-52-08
+format_output(){
+	data="$1"
+	output_raw="$2"
+	output_nice="$3"
+
+	if [ -n "$data" ]; then
+		if [ -n "$return_raw_output" ]; then
+			echo "$output_raw"
+		else
+			echo "$output_nice"
+		fi
+	else 
+		echo "n/a"
+	fi
+}
+
 get_date() {
+	#2020-05-26-19-52-08
 	date +%F-%H-%M-%S
 }
 
-#/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
 get_cpu_temp() {
 	local temp
 
 	if [ -n "$(whereis tlp-stat)" ]; then
-		temp=$(sudo tlp-stat -t | grep "C]")
+		temp=$(sudo tlp-stat -t | grep "C]") #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
 		temp=${temp//"/proc/acpi/ibm/thermal = "/""}
 		temp=${temp//" 0 0 0 0 0 0 0"/""}
 		temp=${temp//"[°C]"/""}
@@ -20,14 +35,7 @@ get_cpu_temp() {
 		temp=${temp//"CPU die temperature: "/""}
 	fi
 
-	if [ -n "$temp" ]; then
-		if [ -n "$raw_output" ]; then
-			output="$temp"
-		else
-			output="CPU Temp: ${temp}°C"
-		fi
-		echo "$output"
-	fi
+	format_output "$temp" "$temp" "CPU Temp: ${temp}°C"
 }
 
 get_gpu_temp(){
@@ -41,14 +49,7 @@ get_gpu_temp(){
 		temp=${temp//:/}
 	fi 
 
-	if [ -n "$temp" ]; then
-		if [ -n "$raw_output" ]; then
-			output="$temp"
-		else
-			output="GPU Temp: ${temp}°C"
-		fi
-		echo "$output"
-	fi
+	format_output "$temp" "$temp" "GPU Temp: ${temp}°C"
 }
 
 #Fan speed = 4137 [/min]
@@ -64,14 +65,7 @@ get_fan_speed() {
 		speed=${speed//" "/""}
 	fi
 
-	if [ -n "$speed" ]; then
-		if [ -n "$raw_output" ]; then
-			output="$speed"
-		else
-			output="Fan: $speed/min"
-		fi
-		echo "$output"
-	fi
+	format_output "$speed" "$speed" "Fan: $speed/min"
 }
 
 get_memory_usage() {
@@ -92,14 +86,7 @@ get_memory_usage() {
 		available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 	fi 
 
-	if [ -n "$available_in_percent" ]; then
-		if [ -n "$raw_output" ]; then
-			output="$available_in_percent"
-		else
-			output="RAM: $available_in_percent%"
-		fi
-		echo "$output"
-	fi
+	format_output "$available_in_percent" "$available_in_percent" "RAM: $available_in_percent%"
 }
 
 get_cpu_usage(){
@@ -111,15 +98,8 @@ get_cpu_usage(){
 		cpu_cores=$(grep "cpu cores" /proc/cpuinfo | head -n 1  | awk '{print $4 }')
 		# TODO replace cpu_cores with threads
 	fi
-
-	if [ -n "$cpu_cores" ] && [ -n "$cpu_usage" ]; then
-		if [ -n "$raw_output" ]; then
-			output="${cpu_usage[0]}/$cpu_cores"
-		else
-			output="CPU: ${cpu_usage[0]}/$cpu_cores" #(one, five, fiveteen min average)
-		fi
-		echo "$output"
-	fi
+	# cpu_usage[0/1/2] contains one[0], five[1], fiveteen[2] min average
+	format_output "$cpu_usage" "${cpu_usage[0]}/$cpu_cores" "CPU: ${cpu_usage[0]}/$cpu_cores"
 }
 
 #BAT0/power_now = 0 [mW]
@@ -142,14 +122,7 @@ get_energy_consumption() {
 		#bat1=${bat0_and_1[1]} External X250 Battery
 	fi
 
-	if [ -n "${bat0_and_1[*]}" ]; then
-		if [ -n "$raw_output" ]; then
-			output="${bat0_and_1[0]}|${bat0_and_1[1]}"
-		else
-			output="Consumption: Bat0(${bat0_and_1[0]}) Bat1(${bat0_and_1[1]}) mW"
-		fi
-		echo "$output"
-	fi
+	format_output "${bat0_and_1[*]}" "${bat0_and_1[0]}|${bat0_and_1[1]}" "Consumption: Bat0(${bat0_and_1[0]}) Bat1(${bat0_and_1[1]}) mW"
 }
 
 #Charge total = 73.6 [%]
@@ -203,12 +176,7 @@ get_energy_charge() {
 		#minutes_left=$(python -c "print(int(($hours_left_tmp-$hours_left)*60))")
 		minutes_left=$(echo | awk "{printf(\"%d\n\", ($hours_left_tmp-$hours_left)*60 )}" )
 
-		if [ -n "$raw_output" ]; then
-			output="$charge_percent% ($hours_left h $minutes_left m left)"
-		else
-			output="Charge Left: $charge_percent% ($hours_left h $minutes_left m left)"
-		fi
-		echo "$output"
+		format_output "$charge_percent" "$charge_percent% ($hours_left h $minutes_left m left)" "Charge Left: $charge_percent% ($hours_left h $minutes_left m left)"
 	fi
 }
 
@@ -231,18 +199,20 @@ get_csv_entry(){
 	echo "$(get_date)${delimiter}$(get_cpu_temp)${delimiter}$(get_gpu_temp)${delimiter}$(get_fan_speed)${delimiter}$(get_memory_usage)${delimiter}$(get_cpu_usage)${delimiter}$(get_energy_consumption)${delimiter}$(get_energy_charge)"
 }
 
-export raw_output=""
+export return_raw_output=""
 export sleeptime=2s
-export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge
+export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge format_output
 
 flag="$1"
 
-if [ "$flag" == "-csv" ]; then
+if [ "$flag" = "source" ]; then
+	return 0
+elif [ "$flag" == "-csv" ]; then
 	csv_file="$2"
 	if [ -z "$csv_file" ]; then
 		echo "Need CSV Filename"
 	else
-		raw_output=true
+		return_raw_output=true
 		delimiter=";"
 		get_csv_head > "$csv_file"
 		while true; do
