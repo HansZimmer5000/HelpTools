@@ -12,7 +12,7 @@ format_output(){
 			echo "$output_nice"
 		fi
 	else 
-		echo "n/a"
+		echo "$empty_value"
 	fi
 }
 
@@ -199,6 +199,7 @@ get_csv_entry(){
 	echo "$(get_date)${delimiter}$(get_cpu_temp)${delimiter}$(get_gpu_temp)${delimiter}$(get_fan_speed)${delimiter}$(get_memory_usage)${delimiter}$(get_cpu_usage)${delimiter}$(get_energy_consumption)${delimiter}$(get_energy_charge)"
 }
 
+export empty_value="n/a"
 export return_raw_output=""
 export sleeptime=2s
 export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge format_output
