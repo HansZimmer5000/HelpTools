@@ -54,7 +54,10 @@ get_gpu_temp(){
 		temp="$(nvidia-settings -q ThermalSensorReading | grep Attribute)"
 		temp=${temp: -4}
 		temp=$(remove_all_from_text "$temp" " " "." ":")
-	fi 
+	elif [ -n "$(whereis powermetrics)" ]; then
+		temp=$(sudo powermetrics --samplers smc -n 1 |grep -i "GPU die temperature")
+		temp=$(remove_all_from_text "$temp" " C" "GPU die temperature: ")
+	fi
 
 	format_output "$temp" "$temp" "GPU Temp: ${temp}°C"
 }
