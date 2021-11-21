@@ -22,7 +22,7 @@ remove_all_from_text(){
 
 	for substr in "$@"; do
 		# ${text//"$substr"/""} Would be nicer, but does not handle space in substr
-		text="$(echo "$text" | sed "s|$substr||g")"
+		text="$(echo "$text" | sed "s|$substr|| g")"
 	done
 
 	echo "$text"
@@ -40,7 +40,7 @@ get_cpu_temp() {
 		temp=$(sudo tlp-stat -t | grep "C]") #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
 		temp=$(remove_all_from_text "$temp" "/proc/acpi/ibm/thermal = " " 0 0 0 0 0 0 0" "[°C]")
 	elif [ -n "$(whereis powermetrics)" ]; then
-		temp=$(sudo powermetrics --samplers smc -n 1 |grep -i "CPU die temperature")
+		temp=$(sudo powermetrics --samplers smc -n 1 | grep -i "CPU die temperature")
 		temp=$(remove_all_from_text "$temp" " C" "CPU die temperature: ")
 	fi
 
@@ -55,7 +55,7 @@ get_gpu_temp(){
 		temp=${temp: -4}
 		temp=$(remove_all_from_text "$temp" " " "." ":")
 	elif [ -n "$(whereis powermetrics)" ]; then
-		temp=$(sudo powermetrics --samplers smc -n 1 |grep -i "GPU die temperature")
+		temp=$(sudo powermetrics --samplers smc -n 1 | grep -i "GPU die temperature")
 		temp=$(remove_all_from_text "$temp" " C" "GPU die temperature: ")
 	fi
 
@@ -69,9 +69,12 @@ get_fan_speed() {
 	if [ -n "$(whereis tlp-stat)" ]; then
 		speed=$(sudo tlp-stat -t | grep "speed")
 		speed=$(remove_all_from_text "$speed" "(fan1) " "Fan speed" "=" "[/min]" " ")
+	elif [ -n "$(whereis powermetrics)" ]; then
+		speed=$(sudo powermetrics --samplers smc -n 1 | grep -i "rpm")
+		speed=$(remove_all_from_text "$speed" "Fan: " " rpm")
 	fi
 
-	format_output "$speed" "$speed" "Fan: $speed/min"
+	format_output "$speed" "$speed" "Fan: $speed rpm"
 }
 
 get_memory_usage() {
@@ -87,6 +90,7 @@ get_memory_usage() {
 
 		available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 	fi 
+	# TODO MacOS
 
 	format_output "$available_in_percent" "$available_in_percent" "RAM: $available_in_percent%"
 }
@@ -100,6 +104,8 @@ get_cpu_usage(){
 		cpu_cores=$(grep "cpu cores" /proc/cpuinfo | head -n 1  | awk '{print $4 }')
 		# TODO replace cpu_cores with threads
 	fi
+	# TODO MacOS
+
 	# cpu_usage[0/1/2] contains one[0], five[1], fiveteen[2] min average
 	format_output "$cpu_usage" "${cpu_usage[0]}/$cpu_cores" "CPU: ${cpu_usage[0]}/$cpu_cores"
 }
@@ -117,6 +123,7 @@ get_energy_consumption() {
 		#bat0=${bat0_and_1[0]} Internal X250 Battery
 		#bat1=${bat0_and_1[1]} External X250 Battery
 	fi
+	# TODO MacOS
 
 	format_output "${bat0_and_1[*]}" "${bat0_and_1[0]}|${bat0_and_1[1]}" "Consumption: Bat0(${bat0_and_1[0]}) Bat1(${bat0_and_1[1]}) mW"
 }
@@ -164,6 +171,7 @@ get_energy_charge() {
 
 		format_output "$charge_percent" "$charge_percent% ($hours_left h $minutes_left m left)" "Charge Left: $charge_percent% ($hours_left h $minutes_left m left)"
 	fi
+	# TODO MacOS
 }
 
 print_exhausts() {
