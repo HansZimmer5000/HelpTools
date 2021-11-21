@@ -16,6 +16,18 @@ format_output(){
 	fi
 }
 
+remove_all_from_text(){
+	text="$1"
+	shift 1
+
+	for substr in "$@"; do
+		# ${text//"$substr"/""} Would be nicer, but does not handle space in substr
+		text="$(echo "$text" | sed "s|$substr||g")"
+	done
+
+	echo "$text"
+}
+
 get_date() {
 	#2020-05-26-19-52-08
 	date +%F-%H-%M-%S
@@ -26,13 +38,10 @@ get_cpu_temp() {
 
 	if [ -n "$(whereis tlp-stat)" ]; then
 		temp=$(sudo tlp-stat -t | grep "C]") #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
-		temp=${temp//"/proc/acpi/ibm/thermal = "/""}
-		temp=${temp//" 0 0 0 0 0 0 0"/""}
-		temp=${temp//"[°C]"/""}
+		temp=$(remove_all_from_text "$temp" "/proc/acpi/ibm/thermal = " " 0 0 0 0 0 0 0" "[°C]")
 	elif [ -n "$(whereis powermetrics)" ]; then
 		temp=$(sudo powermetrics --samplers smc -n 1 |grep -i "CPU die temperature")
-		temp=${temp//" C"/""}
-		temp=${temp//"CPU die temperature: "/""}
+		temp=$(remove_all_from_text "$temp" " C" "CPU die temperature: ")
 	fi
 
 	format_output "$temp" "$temp" "CPU Temp: ${temp}°C"
@@ -44,9 +53,7 @@ get_gpu_temp(){
 	if [ -n "$(whereis nvidia-settings)" ]; then
 		temp="$(nvidia-settings -q ThermalSensorReading | grep Attribute)"
 		temp=${temp: -4}
-		temp=${temp// /}
-		temp=${temp//./}
-		temp=${temp//:/}
+		temp=$(remove_all_from_text "$temp" " " "." ":")
 	fi 
 
 	format_output "$temp" "$temp" "GPU Temp: ${temp}°C"
@@ -58,11 +65,7 @@ get_fan_speed() {
 
 	if [ -n "$(whereis tlp-stat)" ]; then
 		speed=$(sudo tlp-stat -t | grep "speed")
-		speed=${speed//"(fan1) "/""}
-		speed=${speed//"Fan speed"/""}
-		speed=${speed//"="/""}
-		speed=${speed//"[/min]"/""}
-		speed=${speed//" "/""}
+		speed=$(remove_all_from_text "$speed" "(fan1) " "Fan speed" "=" "[/min]" " ")
 	fi
 
 	format_output "$speed" "$speed" "Fan: $speed/min"
@@ -75,13 +78,9 @@ get_memory_usage() {
 		memory_total=$(grep "MemTotal" /proc/meminfo)
 		memory_available=$(grep "MemAvailable" /proc/meminfo)
 
-		memory_total=${memory_total//"MemTotal:"/""}
-		memory_total=${memory_total//"kB"/""}
-		memory_total=${memory_total//" "/""}
+		memory_total=$(remove_all_from_text "$memory_total" "MemTotal:" "kB" " ")
 
-		memory_available=${memory_available//"MemAvailable:"/""}
-		memory_available=${memory_available//"kB"/""}
-		memory_available=${memory_available//" "/""}
+		memory_available=$(remove_all_from_text "$memory_available" "MemAvailable:" "kB" " ")
 
 		available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 	fi 
@@ -109,13 +108,7 @@ get_energy_consumption() {
 
 	if [ -n "$(whereis tlp-stat)" ]; then
 		consumption=$(sudo tlp-stat -b | grep "power_now")
-		consumption=${consumption//"/sys/class/power_supply/"/}
-		consumption=${consumption//"/power_now"/}
-		consumption=${consumption//"BAT0"/""}
-		consumption=${consumption//"BAT1"/""}
-		consumption=${consumption//"="/""}
-		consumption=${consumption//"[mW]"/""}
-		consumption=${consumption//" "/""}
+		consumption=$(remove_all_from_text "$consumption" "/sys/class/power_supply/" "/power_now" "BAT0" "BAT1" "=" "[mW]" " ")
 
 		bat0_and_1=($consumption)
 		#bat0=${bat0_and_1[0]} Internal X250 Battery
@@ -134,11 +127,7 @@ get_energy_charge() {
 			grep_word="Charge  "
 			charge_percent=$(sudo tlp-stat -b | grep "$grep_word")
 		fi
-		charge_percent=${charge_percent//"+++ "/""}
-		charge_percent=${charge_percent//"$grep_word"/""}
-		charge_percent=${charge_percent//"="/""}
-		charge_percent=${charge_percent//"[%]"/""}
-		charge_percent=${charge_percent//" "/""}
+		charge_percent=$(remove_all_from_text "$charge_percent" "+++ " "$grep_word" "=" "[%]" " ")
 
 		charge=$(sudo tlp-stat -b | grep "energy_now")
 		charge_arr=($charge)
@@ -151,13 +140,7 @@ get_energy_charge() {
 
 		# Refactor code from get consumption
 		consumption_=$(sudo tlp-stat -b | grep "power_now")
-		consumption_=${consumption_//"/sys/class/power_supply/"/}
-		consumption_=${consumption_//"/power_now"/}
-		consumption_=${consumption_//"BAT0"/""}
-		consumption_=${consumption_//"BAT1"/""}
-		consumption_=${consumption_//"="/""}
-		consumption_=${consumption_//"[mW]"/""}
-		consumption_=${consumption_//" "/""}
+		consumption_=$(remove_all_from_text "$consumption_" "/sys/class/power_supply/" "/power_now" "BAT0" "BAT1" "=" "[mW]" " ")
 
 		bat0_and_1_=($consumption_)
 		consumption_total_=${bat0_and_1_[0]}
@@ -202,7 +185,7 @@ get_csv_entry(){
 export empty_value="n/a"
 export return_raw_output=""
 export sleeptime=2s
-export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge format_output
+export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge format_output remove_all_from_text
 
 flag="$1"
 

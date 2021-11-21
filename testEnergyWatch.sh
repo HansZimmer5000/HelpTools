@@ -42,4 +42,19 @@ test_format_output(){
     assert
 }
 
+test_remove_all_from_text(){
+    test=test_format_output
+
+    test_no=1
+    is_output=$(remove_all_from_text "this is my text" " ")
+    expected_output="thisismytext"
+    assert 
+
+    test_no=2
+    is_output=$(remove_all_from_text "this is my text" "t" "e" "y x")
+    expected_output="his is m"
+    assert
+}
+
 test_format_output
+test_remove_all_from_text
