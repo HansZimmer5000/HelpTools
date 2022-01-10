@@ -28,6 +28,18 @@ remove_all_from_text(){
 	echo "$text"
 }
 
+update_powermetrics_data(){
+	powermetrics_data=$(sudo powermetrics --samplers smc -n 1)
+}
+
+update_tlpstatt_data(){
+	tlpstatt_data=$(sudo tlp-stat -t)
+}
+
+update_tlpstatb_data(){
+	tlpstatb_data=$(sudo tlp-stat -b)
+}
+
 get_date() {
 	#2020-05-26-19-52-08
 	date +%F-%H-%M-%S
@@ -37,10 +49,10 @@ get_cpu_temp() {
 	local temp
 
 	if [ -n "$(whereis tlp-stat)" ]; then
-		temp=$(sudo tlp-stat -t | grep "C]") #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
+		temp=$(echo "$tlpstatt_data" | grep "C]") #/proc/acpi/ibm/thermal = 46 0 0 0 0 0 0 0 [°C]
 		temp=$(remove_all_from_text "$temp" "/proc/acpi/ibm/thermal = " " 0 0 0 0 0 0 0" "[°C]")
 	elif [ -n "$(whereis powermetrics)" ]; then
-		temp=$(sudo powermetrics --samplers smc -n 1 | grep -i "CPU die temperature")
+		temp=$(echo "$powermetrics_data" | grep -i "CPU die temperature")
 		temp=$(remove_all_from_text "$temp" " C" "CPU die temperature: ")
 	fi
 
@@ -55,7 +67,7 @@ get_gpu_temp(){
 		temp=${temp: -4}
 		temp=$(remove_all_from_text "$temp" " " "." ":")
 	elif [ -n "$(whereis powermetrics)" ]; then
-		temp=$(sudo powermetrics --samplers smc -n 1 | grep -i "GPU die temperature")
+		temp=$(echo "$powermetrics_data" | grep -i "GPU die temperature")
 		temp=$(remove_all_from_text "$temp" " C" "GPU die temperature: ")
 	fi
 
@@ -67,10 +79,10 @@ get_fan_speed() {
 	local speed
 
 	if [ -n "$(whereis tlp-stat)" ]; then
-		speed=$(sudo tlp-stat -t | grep "speed")
+		speed=$(echo "$tlpstatt_data" | grep "speed")
 		speed=$(remove_all_from_text "$speed" "(fan1) " "Fan speed" "=" "[/min]" " ")
 	elif [ -n "$(whereis powermetrics)" ]; then
-		speed=$(sudo powermetrics --samplers smc -n 1 | grep -i "rpm")
+		speed=$(echo "$powermetrics_data" | grep -i "rpm")
 		speed=$(remove_all_from_text "$speed" "Fan: " " rpm")
 	fi
 
@@ -81,12 +93,10 @@ get_memory_usage() {
 	local available_in_percent
 
 	if [ -f "/proc/meminfo" ]; then
-		memory_total=$(grep "MemTotal" /proc/meminfo)
-		memory_available=$(grep "MemAvailable" /proc/meminfo)
-
-		memory_total=$(remove_all_from_text "$memory_total" "MemTotal:" "kB" " ")
-
-		memory_available=$(remove_all_from_text "$memory_available" "MemAvailable:" "kB" " ")
+		memory_total_raw=$(grep "MemTotal" /proc/meminfo)
+		memory_available_raw=$(grep "MemAvailable" /proc/meminfo)
+		memory_total=$(remove_all_from_text "$memory_total_raw" "MemTotal:" "kB" " ")
+		memory_available=$(remove_all_from_text "$memory_available_raw" "MemAvailable:" "kB" " ")
 
 		available_in_percent=$(bc <<<"scale=1;100-$memory_available*100/$memory_total")
 	fi 
@@ -116,7 +126,7 @@ get_energy_consumption() {
 	local bat0_and_1
 
 	if [ -n "$(whereis tlp-stat)" ]; then
-		consumption=$(sudo tlp-stat -b | grep "power_now")
+		consumption=$(echo "$tlpstatb_data" | grep "power_now")
 		consumption=$(remove_all_from_text "$consumption" "/sys/class/power_supply/" "/power_now" "BAT0" "BAT1" "=" "[mW]" " ")
 
 		bat0_and_1=($consumption)
@@ -132,14 +142,14 @@ get_energy_consumption() {
 get_energy_charge() {
 	if [ -n "$(whereis tlp-stat)" ]; then
 		grep_word="Charge total"
-		charge_percent=$(sudo tlp-stat -b | grep "$grep_word")
+		charge_percent=$(echo "$tlpstatb_data" | grep "$grep_word")
 		if [ -z "$charge_percent" ]; then
 			grep_word="Charge  "
-			charge_percent=$(sudo tlp-stat -b | grep "$grep_word")
+			charge_percent=$(echo "$tlpstatb_data" | grep "$grep_word")
 		fi
 		charge_percent=$(remove_all_from_text "$charge_percent" "+++ " "$grep_word" "=" "[%]" " ")
 
-		charge=$(sudo tlp-stat -b | grep "energy_now")
+		charge=$(echo "$tlpstatb_data" | grep "energy_now")
 		charge_arr=($charge)
 		# Go through all batteries in the system (Thinkpads X250 e.g. has two)
 		mWh_total=0
@@ -149,7 +159,7 @@ get_energy_charge() {
 		fi
 
 		# Refactor code from get consumption
-		consumption_=$(sudo tlp-stat -b | grep "power_now")
+		consumption_=$(echo "$tlpstatb_data" | grep "power_now")
 		consumption_=$(remove_all_from_text "$consumption_" "/sys/class/power_supply/" "/power_now" "BAT0" "BAT1" "=" "[mW]" " ")
 
 		bat0_and_1_=($consumption_)
@@ -193,10 +203,9 @@ get_csv_entry(){
 	echo "$(get_date)${delimiter}$(get_cpu_temp)${delimiter}$(get_gpu_temp)${delimiter}$(get_fan_speed)${delimiter}$(get_memory_usage)${delimiter}$(get_cpu_usage)${delimiter}$(get_energy_consumption)${delimiter}$(get_energy_charge)"
 }
 
-export empty_value="n/a"
-export return_raw_output=""
-export sleeptime=2s
-export -f print_exhausts get_date get_cpu_temp get_gpu_temp get_memory_usage get_cpu_usage get_fan_speed get_energy_consumption get_energy_charge format_output remove_all_from_text
+empty_value="n/a"
+return_raw_output=""
+sleep_duration=2 # TODO on MacOS without the 's'
 
 flag="$1"
 
@@ -212,10 +221,18 @@ elif [ "$flag" == "-csv" ]; then
 		get_csv_head > "$csv_file"
 		while true; do
 			get_csv_entry >> "$csv_file"
-			sleep "$sleeptime"
+			sleep ${sleep_duration}
 		done
 	fi
 else
-	# TODO do not print date as 'watch' already shows it
-	watch -n 1 "print_exhausts"
+	while true; do
+		update_powermetrics_data
+		update_tlpstatt_data
+		update_tlpstatb_data
+
+		clear || clr
+		print_exhausts
+
+		sleep ${sleep_duration}
+	done
 fi
