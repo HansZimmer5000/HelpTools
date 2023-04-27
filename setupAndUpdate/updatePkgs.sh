@@ -54,4 +54,4 @@ update_clean_package_manager "true" "flatpak update" "apt-get upgrade ; apt-get 
 
 update_clean_package_manager "true" "apt-get update" "apt-get upgrade ; apt-get autoremove"
 
-update_clean_package_manager "" "brew update" ""
+update_clean_package_manager "" "brew update" "brew upgrade"
