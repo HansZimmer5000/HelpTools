@@ -1,6 +1,6 @@
 # TODO - where to put?
 - Beware, somekeyboards can "lock" the Windows key, which makes it unusable. At the Quickfire Rapid its the same key as "Druck S - ABF"
-- start local languageTool Server via docker run --rm -d -p 8010:8010 silviof/docker-languagetool from https://github.com/silvio/docker-languagetool
+- start local languageTool Server via `docker run --rm -d -p 8010:8010 silviof/docker-languagetool` from https://github.com/silvio/docker-languagetool
 # Help for new Manjaro Installation
 
 Used Desktop Environments: 
