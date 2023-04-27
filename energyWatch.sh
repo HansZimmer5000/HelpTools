@@ -43,7 +43,7 @@ update_sysctl_data(){
 
 	temp=$(echo "$sysctl_data" | grep machdep.xcpm.cpu_thermal_level | sed 's|machdep.xcpm.cpu_thermal_level: ||')
 	temp_gpu=$(echo "$sysctl_data" | grep machdep.xcpm.gpu_thermal_level | sed 's|machdep.xcpm.gpu_thermal_level: ||')
-	speed=3
+	speed="N/A"
 	#available_in_percent=$(echo "$sysctl_data" | grep hw.memsize)
 
 	free=($(vm_stat | grep free | sed 's|\.||g')) ; free=${free[2]}
@@ -232,6 +232,7 @@ elif [ "$flag" == "-csv" ]; then
 else
 	while true; do
 		if whereis sysctl &>/dev/null; then
+			# "Using sysctl, may have unreliable data"
 			update_sysctl_data
 		elif whereis powermetrics &>/dev/null; then
 			update_powermetrics_data
